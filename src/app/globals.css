@@ -1,0 +1,84 @@
+/* Импорт Tailwind CSS */
+@import url('https://fonts.googleapis.com/css2?family=Salsa&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Переменные для фоновых и текстовых цветов (темная/светлая тема) */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #FDC801; /* Цвет из Figma */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+/* Отключаем горизонтальную прокрутку на весь сайт */
+html,
+body {
+  overflow-x: hidden;
+}
+
+/* 
+   Важно: здесь НЕ прописываем font-family в body, 
+   чтобы не конфликтовало с @layer base. 
+   Оставим только цвета фона и текста.
+*/
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+/* -- Основной слой базовых стилей -- */
+@layer base {
+  /* 
+     Устанавливаем Roboto для всего сайта, 
+     применяя шрифт к <html> (а значит и ко всем наследникам).
+  */
+  html {
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  }
+
+  /* Настройки скроллбара для WebKit-браузеров (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 8px;    /* толщина вертикальной полосы */
+    height: 8px;   /* толщина горизонтальной полосы */
+  }
+
+  /* Фон скроллбара */
+  ::-webkit-scrollbar-track {
+    background: #f4f4f4;
+    border-radius: 10px;
+  }
+
+  /* Сам ползунок */
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary); /* Теперь цвет FDC801 */
+    border-radius: 10px;
+  }
+
+  /* Ползунок при наведении */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #e5b700; /* Чуть темнее для эффекта */
+  }
+}
+
+/* Для Firefox (меняет цвет ползунка и трека) */
+* {
+  scrollbar-color: var(--primary) #f4f4f4;
+  scrollbar-width: thin;
+}
+
+/* Класс, который скрывает скроллбар (если нужно) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
