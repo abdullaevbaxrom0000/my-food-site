@@ -20,13 +20,13 @@ const roboto = Roboto({
 
 export const metadata = {
   title: "Mit Food Company",
-  description: "Mit Food Company - Your favorite food delivery service",
+  description: "Mit - XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
   icons: {
     icon: "/favicon.png",
   },
   openGraph: {
     title: "The Food Company",
-    description: "Mit - Your favorite fastfood  in Uzbekistan Mit - Your favorite fastfood  in Uzbekistan",
+    description: "Mit - XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     url: "https://www.mit-foodcompany.uz", // Используй www
     siteName: "Mit Food Company",
     images: [
@@ -43,7 +43,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Mit Food Company",
-    description: "Mit Food Company - Your favorite food delivery service in Uzbekistan",
+    description: "Mit - XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     images: ["https://www.mit-foodcompany.uz/og-image-new.jpg"],
   },
 }; 
