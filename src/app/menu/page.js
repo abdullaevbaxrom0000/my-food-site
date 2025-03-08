@@ -122,6 +122,9 @@ export default function Menu() {
   const [orderItems, setOrderItems] = useState([]);
   const [isOrderSummaryOpen, setIsOrderSummaryOpen] = useState(false);
 
+  const [isStoriesOpen, setIsStoriesOpen] = useState(false);
+  const [selectedStory, setSelectedStory] = useState(null);
+
   // Список категорий:
   const categories = [
     {
@@ -416,6 +419,13 @@ export default function Menu() {
   const [reelStates, setReelStates] = useState([false, false, false]);
   const [prizeResult, setPrizeResult] = useState("");
 
+  const donationStories = [
+    { id: 1, img: "heart.svg", count: "x20" },
+    { id: 2, img: "spizza.svg", count: "x7" },
+    { id: 3, img: "bottle.svg", count: "x10" },
+    { id: 4, img: "gam.svg", count: "x3" },
+  ];
+
   // Модальное окно (первое) — детали одной карточки:
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -612,11 +622,28 @@ export default function Menu() {
     setIsMenuModalOpen(true);
   };
 
+  const handleStoryClick = (story) => {
+    setSelectedStory(story);
+    setIsStoriesOpen(true);
+  };
+
   // -----------------------------------
   // Скрывать прокрутку body при открытых модалках
   // -----------------------------------
+
   useEffect(() => {
-    if (isModalOpen || isOrderSummaryOpen || isMenuModalOpen) {
+    if (isStoriesOpen) {
+      const timer = setTimeout(() => {
+        setIsStoriesOpen(false);
+        setSelectedStory(null);
+      }, 5000); // 5 секунд
+      return () => clearTimeout(timer);
+    }
+  }, [isStoriesOpen]);
+
+
+  useEffect(() => {
+    if (isModalOpen || isOrderSummaryOpen || isMenuModalOpen || isStoriesOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -624,7 +651,9 @@ export default function Menu() {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isModalOpen, isOrderSummaryOpen, isMenuModalOpen]);
+  }, [isModalOpen, isOrderSummaryOpen, isMenuModalOpen, isStoriesOpen]);
+
+  
 
   return (
     <div className="relative w-full min-h-screen">
@@ -735,92 +764,71 @@ export default function Menu() {
               </div>
 
               {/* Второй слайд: Donations */}
+              
               <div className="w-full flex-shrink-0 flex flex-col items-center justify-center bg-white">
-                <div className="w-full flex flex-col items-center">
-                  <div className="flex items-center justify-between w-full px-[5%] text-black text-[1.25rem] font-semibold font-['Roboto'] mb-[1rem] sm:mb-[1.5rem]">
-                    <span>Donations on 28.02.2025</span>
-                    {/* Иконка "heart +", теперь снова открывает "меню" */}
-                    <button onClick={handleHeartPlusClick} className="ml-4">
-                      <svg
-                        width="38"
-                        height="38"
-                        viewBox="0 0 38 38"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M28.8638 26.1251C28.639 26.1251 28.4511 26.0496 28.3002 25.8986C28.1492 25.7477 28.0738 25.5593 28.0738 25.3334V21.3751H24.1154C23.8895 21.3751 23.7011 21.2996 23.5502 21.1486C23.3992 20.9977 23.3238 20.8093 23.3238 20.5834C23.3238 20.3575 23.3992 20.1691 23.5502 20.0181C23.7011 19.8672 23.8895 19.7917 24.1154 19.7917H28.0738V15.8334C28.0738 15.6086 28.1492 15.4201 28.3002 15.2681C28.4511 15.1161 28.6395 15.0407 28.8654 15.0417C29.0913 15.0428 29.2792 15.1182 29.4291 15.2681C29.579 15.418 29.655 15.6064 29.6571 15.8334V19.7917H33.6154C33.8403 19.7917 34.0281 19.8672 34.1791 20.0181C34.33 20.1691 34.406 20.3575 34.4071 20.5834C34.4081 20.8093 34.3321 20.9977 34.1791 21.1486C34.026 21.2996 33.8381 21.3751 33.6154 21.3751H29.6571V25.3334C29.6571 25.5593 29.5811 25.7477 29.4291 25.8986C29.2771 26.0496 29.0892 26.1251 28.8654 26.1251Z"
-                          fill="#FFA629"
-                        />
-                        <path
-                          d="M17.4163 30.5061C17.2095 30.5061 17.0073 30.4761 16.8099 30.4159C16.6136 30.3547 16.431 30.2396 16.2621 30.0707C14.0254 28.0208 12.0795 26.2011 10.4243 24.6114C8.76923 23.0217 7.40756 21.5666 6.33934 20.2461C5.27112 18.9256 4.4747 17.6854 3.95009 16.5253C3.42548 15.3653 3.16423 14.1973 3.16634 13.0214C3.16634 11.0074 3.85034 9.31797 5.21834 7.95314C6.58634 6.5883 8.27734 5.90642 10.2913 5.90747C11.6847 5.90747 12.9909 6.26214 14.2101 6.97147C15.4293 7.68081 16.498 8.71525 17.4163 10.0748C18.3347 8.71525 19.4034 7.68081 20.6226 6.97147C21.8428 6.26214 23.1491 5.90747 24.5413 5.90747C26.1637 5.90747 27.5792 6.36242 28.7878 7.27231C29.9965 8.18219 30.8182 9.35281 31.2531 10.7841C31.3608 11.124 31.289 11.4243 31.0378 11.6851C30.7865 11.9458 30.4672 12.0498 30.0798 11.997C29.8529 11.9558 29.6307 11.9252 29.4133 11.9051C29.1958 11.8851 28.9736 11.8751 28.7467 11.8751C26.4223 11.8751 24.4094 12.7179 22.7078 14.4036C21.0073 16.0894 20.1571 18.1493 20.1571 20.5834C20.1571 21.4891 20.2943 22.3604 20.5688 23.1975C20.8443 24.0345 21.2427 24.8114 21.7642 25.5281C21.9531 25.7836 22.0376 26.0818 22.0175 26.4227C21.9975 26.7637 21.8708 27.0487 21.6375 27.2777L18.5706 30.0802C18.4017 30.2491 18.2191 30.3621 18.0228 30.4191C17.8264 30.4761 17.6243 30.5051 17.4163 30.5061Z"
-                          fill="#414141"
-                        />
-                      </svg>
-                    </button>
-                  </div>
+  <div className="w-full flex flex-col items-center">
+    <div className="flex items-center justify-between w-full px-[5%] text-black text-[1.25rem] font-semibold font-['Roboto'] mb-[1rem] sm:mb-[1.5rem]">
+      <span>Donations on 28.02.2025</span>
+      <button onClick={handleHeartPlusClick} className="ml-4">
+        <svg
+          width="38"
+          height="38"
+          viewBox="0 0 38 38"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M28.8638 26.1251C28.639 26.1251 28.4511 26.0496 28.3002 25.8986C28.1492 25.7477 28.0738 25.5593 28.0738 25.3334V21.3751H24.1154C23.8895 21.3751 23.7011 21.2996 23.5502 21.1486C23.3992 20.9977 23.3238 20.8093 23.3238 20.5834C23.3238 20.3575 23.3992 20.1691 23.5502 20.0181C23.7011 19.8672 23.8895 19.7917 24.1154 19.7917H28.0738V15.8334C28.0738 15.6086 28.1492 15.4201 28.3002 15.2681C28.4511 15.1161 28.6395 15.0407 28.8654 15.0417C29.0913 15.0428 29.2792 15.1182 29.4291 15.2681C29.579 15.418 29.655 15.6064 29.6571 15.8334V19.7917H33.6154C33.8403 19.7917 34.0281 19.8672 34.1791 20.0181C34.33 20.1691 34.406 20.3575 34.4071 20.5834C34.4081 20.8093 34.3321 20.9977 34.1791 21.1486C34.026 21.2996 33.8381 21.3751 33.6154 21.3751H29.6571V25.3334C29.6571 25.5593 29.5811 25.7477 29.4291 25.8986C29.2771 26.0496 29.0892 26.1251 28.8654 26.1251Z"
+            fill="#FFA629"
+          />
+          <path
+            d="M17.4163 30.5061C17.2095 30.5061 17.0073 30.4761 16.8099 30.4159C16.6136 30.3547 16.431 30.2396 16.2621 30.0707C14.0254 28.0208 12.0795 26.2011 10.4243 24.6114C8.76923 23.0217 7.40756 21.5666 6.33934 20.2461C5.27112 18.9256 4.4747 17.6854 3.95009 16.5253C3.42548 15.3653 3.16423 14.1973 3.16634 13.0214C3.16634 11.0074 3.85034 9.31797 5.21834 7.95314C6.58634 6.5883 8.27734 5.90642 10.2913 5.90747C11.6847 5.90747 12.9909 6.26214 14.2101 6.97147C15.4293 7.68081 16.498 8.71525 17.4163 10.0748C18.3347 8.71525 19.4034 7.68081 20.6226 6.97147C21.8428 6.26214 23.1491 5.90747 24.5413 5.90747C26.1637 5.90747 27.5792 6.36242 28.7878 7.27231C29.9965 8.18219 30.8182 9.35281 31.2531 10.7841C31.3608 11.124 31.289 11.4243 31.0378 11.6851C30.7865 11.9458 30.4672 12.0498 30.0798 11.997C29.8529 11.9558 29.6307 11.9252 29.4133 11.9051C29.1958 11.8851 28.9736 11.8751 28.7467 11.8751C26.4223 11.8751 24.4094 12.7179 22.7078 14.4036C21.0073 16.0894 20.1571 18.1493 20.1571 20.5834C20.1571 21.4891 20.2943 22.3604 20.5688 23.1975C20.8443 24.0345 21.2427 24.8114 21.7642 25.5281C21.9531 25.7836 22.0376 26.0818 22.0175 26.4227C21.9975 26.7637 21.8708 27.0487 21.6375 27.2777L18.5706 30.0802C18.4017 30.2491 18.2191 30.3621 18.0228 30.4191C17.8264 30.4761 17.6243 30.5051 17.4163 30.5061Z"
+            fill="#414141"
+          />
+        </svg>
+      </button>
+    </div>
 
-                  {/* Сетка карточек (пример) */}
-                  <div className="grid grid-cols-4 gap-[2%] w-full px-[5%] mb-[1rem] sm:mb-[1.5rem]">
-                    <div className="relative w-full h-[8.1875rem] bg-gradient-to-b from-[#FFA629] to-[#FFA629] rounded-[1rem] flex items-center justify-center">
-                      <img
-                        className="w-[85%] h-[40%]"
-                        src="heart.svg"
-                        alt="Donation Item"
-                      />
-                      <div className="absolute w-[38.37%] h-[12.21%] left-[54.65%] top-[80.15%] text-center text-white text-[0.75rem] font-medium font-['Roboto']">
-                        x20
-                      </div>
-                    </div>
-                    <div className="relative w-full h-[8.1875rem] bg-gradient-to-b from-[#FFA629] to-[#FFA629] rounded-[1rem] flex items-center justify-center">
-                      <img
-                        className="w-[85%] h-[40%]"
-                        src="spizza.svg"
-                        alt="Donation Item"
-                      />
-                      <div className="absolute w-[38.37%] h-[12.21%] left-[56.98%] top-[80.15%] text-center text-white text-[0.75rem] font-medium font-['Roboto']">
-                        x7
-                      </div>
-                    </div>
-                    <div className="relative w-full h-[8.1875rem] bg-gradient-to-b from-[#FFA629] to-[#FFA629] rounded-[1rem] flex items-center justify-center">
-                      <img
-                        className="w-[85%] h-[40%]"
-                        src="bottle.svg"
-                        alt="Donation Item"
-                      />
-                      <div className="absolute w-[38.37%] h-[12.21%] left-[56.98%] top-[80.15%] text-center text-white text-[0.75rem] font-medium font-['Roboto']">
-                        x10
-                      </div>
-                    </div>
-                    <div className="relative w-full h-[8.1875rem] bg-gradient-to-b from-[#FFA629] to-[#FFA629] rounded-[1rem] flex items-center justify-center">
-                      <img
-                        className="w-[85%] h-[40%]"
-                        src="gam.svg"
-                        alt="Donation Item"
-                      />
-                      <div className="absolute w-[38.37%] h-[12.21%] left-[54.65%] top-[80.15%] text-center text-white text-[0.75rem] font-medium font-['Roboto']">
-                        x3
-                      </div>
-                    </div>
-                  </div>
+    {/* Кликабельные карточки */}
+    <div className="grid grid-cols-4 gap-[2%] w-full px-[5%] mb-[1rem] sm:mb-[1.5rem]">
+      {donationStories.map((story) => (
+        <motion.div
+          key={story.id}
+          className="relative w-full h-[8.1875rem] bg-gradient-to-b from-[#FFA629] to-[#FFA629] rounded-[1rem] flex items-center justify-center cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.3 }}
+          onClick={() => handleStoryClick(story)}
+        >
+          <img
+            className="w-[85%] h-[40%]"
+            src={story.img}
+            alt="Donation Item"
+          />
+          <div className="absolute w-[38.37%] h-[12.21%] left-[54.65%] top-[80.15%] text-center text-white text-[0.75rem] font-medium font-['Roboto']">
+            {story.count}
+          </div>
+        </motion.div>
+      ))}
+    </div>
 
-                  <div className="grid grid-cols-4 gap-[2%] w-full px-[5%]">
-                    <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
-                      Всего Донаты
-                    </div>
-                    <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
-                      Пицца
-                    </div>
-                    <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
-                      Кола
-                    </div>
-                    <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
-                      Кат бургер
-                    </div>
-                  </div>
-                  <div className="mb-[2rem] sm:mb-[4rem]" />
-                </div>
-              </div>
+    <div className="grid grid-cols-4 gap-[2%] w-full px-[5%]">
+      <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
+        Всего Донаты
+      </div>
+      <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
+        Пицца
+      </div>
+      <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
+        Кола
+      </div>
+      <div className="text-center text-[#2b2828] text-[0.75rem] font-normal">
+        Кат бургер
+      </div>
+    </div>
+    <div className="mb-[2rem] sm:mb-[4rem]" />
+  </div>
+</div>
+
             </motion.div>
 
             {/* Точки для переключения слайдов */}
@@ -1384,6 +1392,67 @@ export default function Menu() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <AnimatePresence>
+  {isStoriesOpen && selectedStory && (
+    <motion.div
+      className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[150]"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      onClick={() => setIsStoriesOpen(false)}
+    >
+      <motion.div
+        className="relative w-full h-full flex flex-col items-center justify-center"
+        initial={{ scale: 0.9 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0.9 }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Прогресс-бар */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gray-600">
+          <motion.div
+            className="h-full bg-white"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 5, ease: "linear" }}
+          />
+        </div>
+
+        {/* Крестик для закрытия */}
+        <button
+          className="absolute top-4 right-4 text-white"
+          onClick={() => setIsStoriesOpen(false)}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 6L18 18M6 18L18 6"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        {/* Изображение */}
+        <img
+          className="w-full h-full object-contain max-w-[80%] max-h-[80%]"
+          src={selectedStory.img}
+          alt="Story"
+        />
+      </motion.div>
+    </motion.div>
+  )}
+</AnimatePresence>
 
       <Footer />
     </div>
