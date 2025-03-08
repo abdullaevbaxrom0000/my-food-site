@@ -27,11 +27,11 @@ export const metadata = {
   openGraph: {
     title: "Mit Food Company",
     description: "Mit Food Company - Your favorite food delivery service in Uzbekistan",
-    url: "https://mit-foodcompany.uz",
+    url: "https://www.mit-foodcompany.uz", // Обновили URL
     siteName: "Mit Food Company",
     images: [
       {
-        url: "https://mit-foodcompany.uz/og-image-new.png", // Новый файл
+        url: "https://www.mit-foodcompany.uz/og-image-new.png", // Обновили URL изображения
         width: 1200,
         height: 630,
         alt: "Mit Food Company Preview Image",
@@ -44,9 +44,10 @@ export const metadata = {
     card: "summary_large_image",
     title: "Mit Food Company",
     description: "Mit Food Company - Your favorite food delivery service in Uzbekistan",
-    images: ["https://mit-foodcompany.uz/og-image-new.png"], // Обнови и здесь
+    images: ["https://www.mit-foodcompany.uz/og-image-new.png"], // Обновили URL
   },
 };
+
 
 export default function RootLayout({ children }) {
   return (
