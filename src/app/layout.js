@@ -22,26 +22,25 @@ export const metadata = {
   title: "Mit Food Company",
   description: "Mit Food Company - Your favorite food delivery service",
   icons: {
-    icon: "/favicon-32x32.png",
+    icon: "/favicon.png",
   },
   openGraph: {
-    title: "Mit Food Company", // Заголовок для превью
-    description: "Mit Food Company - Your favorite food delivery service in Uzbekistan", // Описание для превью
-    url: "https://mit-foodcompany.uz", // URL сайта
-    siteName: "Mit Food Company", // Название сайта
+    title: "Mit Food Company",
+    description: "Mit Food Company - Your favorite food delivery service in Uzbekistan",
+    url: "https://mit-foodcompany.uz",
+    siteName: "Mit Food Company",
     images: [
       {
-        url: "https://mit-foodcompany.uz/og-image.jpg", // Путь к изображению для превью
-        width: 1200, // Рекомендуемый размер для OG-изображений
+        url: "https://mit-foodcompany.uz/og-image.jpg", // Проверь путь
+        width: 1200,
         height: 630,
         alt: "Mit Food Company Preview Image",
       },
     ],
-    locale: "en_US", // Язык (можно изменить, например, на "ru_RU")
-    type: "website", // Тип контента
+    locale: "en_US",
+    type: "website",
   },
 };
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
