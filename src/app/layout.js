@@ -22,7 +22,7 @@ export const metadata = {
   title: "The Food Company",
   description: "Mit - Your favorite fast food service!",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon-32x32.png",
   },
   openGraph: {
     title: "Mit",
