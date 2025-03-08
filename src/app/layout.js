@@ -31,7 +31,7 @@ export const metadata = {
     siteName: "Mit Food Company",
     images: [
       {
-        url: "https://mit-foodcompany.uz/og-image.jpg", // Проверь путь
+        url: "https://mit-foodcompany.uz/og-image-new.jpg", // Новый файл
         width: 1200,
         height: 630,
         alt: "Mit Food Company Preview Image",
@@ -40,7 +40,14 @@ export const metadata = {
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mit Food Company",
+    description: "Mit Food Company - Your favorite food delivery service in Uzbekistan",
+    images: ["https://mit-foodcompany.uz/og-image-new.jpg"], // Обнови и здесь
+  },
 };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
