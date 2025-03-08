@@ -34,7 +34,7 @@ export const metadata = {
         url: "https://www.mit-foodcompany.uz/og-image-new.jpg", // Укажи www
         width: 1200,
         height: 630,
-        alt: "Mit Food Company Preview Image",
+        alt: "Mit+1 Food Company Preview Image",
       },
     ],
     locale: "en_US",
