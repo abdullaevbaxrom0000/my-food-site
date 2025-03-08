@@ -1,22 +1,17 @@
-// src/app/layout.js
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 
-// Подключаем Geist Sans
+// Подключаем шрифты
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-// Подключаем Geist Mono
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
-// Подключаем Roboto
-// • Можно добавить веса, которые вам нужны, например 400, 500, 700.
-// • Если нужно, чтобы кириллица корректно отображалась, укажите "cyrillic".
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin", "cyrillic"],
@@ -24,10 +19,26 @@ const roboto = Roboto({
 });
 
 export const metadata = {
-  title: "Mit - The food company",
-  description: "Mit Food Company - Your favorite food service",
+  title: "Mit Food Company",
+  description: "Mit Food Company - Your favorite food delivery service",
   icons: {
-    icon: "/favicon-32x32.png", // Указываем путь к favicon
+    icon: "/favicon-32x32.png",
+  },
+  openGraph: {
+    title: "Mit Food Company", // Заголовок для превью
+    description: "Mit Food Company - Your favorite food delivery service in Uzbekistan", // Описание для превью
+    url: "https://mit-foodcompany.uz", // URL сайта
+    siteName: "Mit Food Company", // Название сайта
+    images: [
+      {
+        url: "https://mit-foodcompany.uz/og-image.jpg", // Путь к изображению для превью
+        width: 1200, // Рекомендуемый размер для OG-изображений
+        height: 630,
+        alt: "Mit Food Company Preview Image",
+      },
+    ],
+    locale: "en_US", // Язык (можно изменить, например, на "ru_RU")
+    type: "website", // Тип контента
   },
 };
 
