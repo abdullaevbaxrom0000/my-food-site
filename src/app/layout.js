@@ -32,7 +32,7 @@ export const metadata = {
     images: [
       {
         url: "https://www.mit-foodcompany.uz/og-image-new.jpg", // Укажи www
-        width: 1200,
+        width: 630,
         height: 630,
         alt: "Mit Food Company Preview Image",
       },
