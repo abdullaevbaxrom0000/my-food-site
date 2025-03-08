@@ -25,8 +25,8 @@ export const metadata = {
     icon: "/favicon.png",
   },
   openGraph: {
-    title: "Mit Food Company",
-    description: "Mit Food Company - Your favorite food delivery service in Uzbekistan",
+    title: "The Food Company",
+    description: "Mit - Your favorite fastfood  in Uzbekistan Mit - Your favorite fastfood  in Uzbekistan",
     url: "https://www.mit-foodcompany.uz", // Используй www
     siteName: "Mit Food Company",
     images: [
