@@ -27,11 +27,11 @@ export const metadata = {
   openGraph: {
     title: "Mit Food Company",
     description: "Mit Food Company - Your favorite food delivery service in Uzbekistan",
-    url: "https://www.mit-foodcompany.uz", // Используй домен с www
+    url: "https://www.mit-foodcompany.uz", // Используй www
     siteName: "Mit Food Company",
     images: [
       {
-        url: "https://www.mit-foodcompany.uz/og-image-new.jpg", // Обнови путь
+        url: "https://www.mit-foodcompany.uz/og-image-new.jpg", // Укажи www
         width: 1200,
         height: 630,
         alt: "Mit Food Company Preview Image",
