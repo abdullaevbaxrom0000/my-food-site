@@ -5,19 +5,19 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function LoginPage() {
-  const [loginMethod, setLoginMethod] = useState("email"); // Метод входа: "email" или "phone"
+  const [loginMethod, setLoginMethod] = useState("email"); // "email" или "phone"
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [smsCode, setSmsCode] = useState(""); // Для SMS-кода
+  const [smsCode, setSmsCode] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isCodeSent, setIsCodeSent] = useState(false); // Показывает, отправлен ли SMS-код
+  const [isCodeSent, setIsCodeSent] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
 
   // Валидация номера телефона (простой пример)
   const validatePhone = (phone) => {
-    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // Простой regex для международного формата
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/;
     return phoneRegex.test(phone);
   };
 
@@ -30,10 +30,8 @@ export default function LoginPage() {
 
     setError("");
     try {
-      // Здесь должен быть запрос к вашему API для отправки SMS-кода
-      // Например: await fetch("/api/send-sms", { method: "POST", body: JSON.stringify({ phone }) });
       console.log("Отправка SMS-кода на номер:", phone);
-      setIsCodeSent(true); // Показываем поле для ввода SMS-кода
+      setIsCodeSent(true);
     } catch (err) {
       setError("Ошибка при отправке SMS-кода. Попробуйте снова.");
     }
@@ -45,32 +43,26 @@ export default function LoginPage() {
     setError("");
 
     if (loginMethod === "email") {
-      // Вход через email
       if (!email || !password) {
         setError("Пожалуйста, заполните все поля");
         return;
       }
 
       try {
-        // Здесь должен быть запрос к вашему API для входа через email
-        // Например: await fetch("/api/login", { method: "POST", body: JSON.stringify({ email, password }) });
         console.log("Вход через email:", { email, password });
-        router.push("/profile"); // Перенаправление при успешном входе
+        router.push("/profile");
       } catch (err) {
         setError("Ошибка при входе. Проверьте данные и попробуйте снова.");
       }
     } else {
-      // Вход через номер телефона
       if (!phone || !smsCode) {
         setError("Пожалуйста, введите номер телефона и SMS-код");
         return;
       }
 
       try {
-        // Здесь должен быть запрос к вашему API для проверки SMS-кода
-        // Например: await fetch("/api/verify-sms", { method: "POST", body: JSON.stringify({ phone, smsCode }) });
         console.log("Вход через телефон:", { phone, smsCode });
-        router.push("/profile"); // Перенаправление при успешном входе
+        router.push("/profile");
       } catch (err) {
         setError("Ошибка при проверке SMS-кода. Попробуйте снова.");
       }
@@ -78,8 +70,11 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#414141]">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    // Внешний контейнер: на мобильных устройствах не применяем flex-центрирование,
+    // чтобы inner-контейнер с h-screen занимал весь экран, а на sm и выше — центрируем.
+    <div className="min-h-screen bg-[#414141] sm:flex sm:items-center sm:justify-center">
+      {/* Inner-контейнер: на мобильных устройствах занимает весь экран, на больших — авто */}
+      <div className="bg-white w-full h-screen sm:h-auto sm:max-w-md sm:rounded-lg sm:shadow-lg p-6">
         {/* Социальные кнопки */}
         <button className="w-full mb-4 p-2 border border-gray-300 flex items-center justify-center">
           <Image src="/facebook-icon.svg" alt="Facebook" width={20} height={20} className="mr-2" />
@@ -190,9 +185,7 @@ export default function LoginPage() {
 
           {error && <div className="mb-4 text-sm text-red-500">{error}</div>}
 
-          <div className="mb-4 text-sm text-gray-500">
-            Забыли пароль?
-          </div>
+          <div className="mb-4 text-sm text-gray-500">Забыли пароль?</div>
 
           <button
             type="submit"
