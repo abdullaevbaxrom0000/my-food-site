@@ -10,49 +10,48 @@ export default function Footer() {
           <div>
             <h2 className="text-sm sm:text-base md:text-lg font-['Roboto'] mb-3 sm:mb-4">О Нас</h2>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm leading-5 sm:leading-6">
-              <li>About Us Overview</li>
-              <li>Leadership Team</li>
-              <li>Values In Action</li>
-              <li>Franchising info</li>
-              <li>Recalls & Alerts</li>
-              <li>Investor Relations</li>
-              <li>News & Notifications</li>
+              <li>Контент с инфо-1</li>
+              <li>Контент с инфо-2</li>
+              <li>Контент с инфо-3</li>
+              <li>Контент с инфо-4</li>
+              <li>Контент с инфо-5</li>
+              <li>Контент с инфо-6</li>
             </ul>
           </div>
 
           {/* Services */}
           <div>
-            <h2 className="text-sm sm:text-base md:text-lg font-['Roboto'] mb-3 sm:mb-4">Services</h2>
+            <h2 className="text-sm sm:text-base md:text-lg font-['Roboto'] mb-3 sm:mb-4">Сервисы копманий</h2>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm leading-5 sm:leading-6">
-              <li>Services Overview</li>
-              <li>Delivery Partners</li>
-              <li>Wi-Fi</li>
-              <li>PlayPlaces & Parties</li>
-              <li>Mobile Order & Pay</li>
-              <li>Trending Now</li>
-              <li>Family Fun Hub</li>
+              <li>Клиентоориентированный продукт</li>
+              <li>Высокосоростной интернет</li>
+              <li>Возможность заказы 24/7</li>
+              <li>Адаптивный сайт без надобности App</li>
+              <li>Слот машына для любителей призов и игр</li>
+              <li>Донатировать всегда из любой точке мира</li>
+              <li></li>
             </ul>
           </div>
 
           {/* Community */}
           <div>
-            <h2 className="text-sm sm:text-base md:text-lg font-['Roboto'] mb-3 sm:mb-4">Community</h2>
+            <h2 className="text-sm sm:text-base md:text-lg font-['Roboto'] mb-3 sm:mb-4">Маркетинг</h2>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm leading-5 sm:leading-6">
-              <li>Community Overview</li>
-              <li>Now Serving</li>
+              <li>Контент с инфо-7</li>
+              <li>Контент с инфо-8</li>
             </ul>
           </div>
 
           {/* Contact Us */}
           <div>
-            <h2 className="text-sm sm:text-base md:text-lg font-['Roboto'] mb-3 sm:mb-4">Contact Us</h2>
+            <h2 className="text-sm sm:text-base md:text-lg font-['Roboto'] mb-3 sm:mb-4">Контент с инфо-9</h2>
             <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm leading-5 sm:leading-6">
-              <li>Contact Us Overview</li>
-              <li>Gift Card FAQs</li>
-              <li>Donations</li>
-              <li>Employment</li>
-              <li>Customer Feedback</li>
-              <li>Frequently Asked Questions</li>
+              <li>Наши кантакты</li>
+              <li>Открыть Гифт карты</li>
+              <li>Сделать Донаты</li>
+              <li>Для соискателей</li>
+              <li>Сбор отзывов</li>
+              <li>Контент с инфо-10</li>
             </ul>
           </div>
         </div>

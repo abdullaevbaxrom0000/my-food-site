@@ -1393,6 +1393,8 @@ export default function Menu() {
         )}
       </AnimatePresence>
 
+
+
       <AnimatePresence>
   {isStoriesOpen && selectedStory && (
     <motion.div
