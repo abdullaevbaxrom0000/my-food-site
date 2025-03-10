@@ -722,7 +722,7 @@ export default function Menu() {
                     {slotValues.map((values, index) => (
                       <motion.div
                         key={index}
-                        className="relative w-[6rem] h-[8.1875rem] bg-gradient-to-b from-[#52d17c] to-[#22918b] rounded-[1rem] flex items-center justify-center text-[6rem] font-normal text-black overflow-hidden border border-black sm:w-[8.1875rem] sm:text-[4rem]"
+                        className="relative w-[6rem] h-[8.1875rem] bg-gradient-to-b from-[#FFFFFF] to-[#22918b] rounded-[1rem] flex items-center justify-center text-[6rem] font-normal text-black overflow-hidden border border-black sm:w-[8.1875rem] sm:text-[4rem]"
                         initial={{ scale: 1 }}
                       >
                         <motion.div
