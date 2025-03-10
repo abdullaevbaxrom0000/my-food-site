@@ -24,7 +24,7 @@ export function generateMetadata({ params }) {
 
   // Дефолтные значения (если страница не имеет особых настроек)
   let title = "Mit - Your favorite fast food service!";
-  let description = "Enjoy delicious fast food at Mit!";
+  let description = "Visit our web site https://www.mit-foodcompany.uz/ to enjoy delicious food and to give the by donation with Mit!";
   let url = `https://www.mit-foodcompany.uz/${path}`;
   let image = "https://www.mit-foodcompany.uz/og-image-new.jpg";
 
