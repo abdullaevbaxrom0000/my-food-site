@@ -24,17 +24,17 @@ export function generateMetadata({ params }) {
 
   // Дефолтные значения (если страница не имеет особых настроек)
   let title = "Mit - Your favorite fast food service!";
-  let description = "Visit our web site mit-foodcompany.uz to enjoy with delicious food and to share with love by donation with Mit!";
+  let description = "Visit our web site https://www.mit-foodcompany.uz to enjoy with delicious food and to share with love by donation with Mit!";
   let url = `https://www.mit-foodcompany.uz/${path}`;
   let image = "https://www.mit-foodcompany.uz/og-image-new.jpg";
 
   // Уникальные превью для разных страниц
   if (path.includes("menu")) {
-    title = "Меню | Mit Food Company";
+    title = "Меню | Food Company";
     description = "Ознакомьтесь с нашим вкусным меню – бургеры, роллы, напитки и многое другое!";
     image = "https://www.mit-foodcompany.uz/images/menu-preview.jpg";
   } else if (path.includes("about")) {
-    title = "О нас | Mit Food Company";
+    title = "О нас | Food Company";
     description = "Узнайте больше о Mit – современный фастфуд с лучшим сервисом!";
     image = "https://www.mit-foodcompany.uz/images/about-preview.jpg";
   }
@@ -46,7 +46,7 @@ export function generateMetadata({ params }) {
       title,
       description,
       url,
-      siteName: "Mit Food Company",
+      siteName: "Food Company",
       images: [
         {
           url: image,
