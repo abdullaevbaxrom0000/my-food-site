@@ -18,35 +18,54 @@ const roboto = Roboto({
   weight: ["400", "500", "700"],
 });
 
-export const metadata = {
-  title: "The Food Company",
-  description: "Mit - Your favorite fast food service!",
-  icons: {
-    icon: "/favicon-32x32.png",
-  },
-  openGraph: {
-    title: "Mit",
-    description: "Your favorite fast food service!",
-    url: "https://www.mit-foodcompany.uz", // Используй www
-    siteName: "Mit Food Company",
-    images: [
-      {
-        url: "https://www.mit-foodcompany.uz/og-image-new.jpg", // Укажи www
-        width: 1200,
-        height: 630,
-        alt: "Mit+1 Food Company Preview Image",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Mit",
-    description: "Your favorite fast food service!",
-    images: ["https://www.mit-foodcompany.uz/og-image-new.jpg"],
-  },
-}; 
+// Функция для генерации метаданных на основе текущего маршрута
+export function generateMetadata({ params }) {
+  const path = params?.slug || "";
+
+  // Дефолтные значения (если страница не имеет особых настроек)
+  let title = "Mit - Your favorite fast food service!";
+  let description = "Enjoy delicious fast food at Mit!";
+  let url = `https://www.mit-foodcompany.uz/${path}`;
+  let image = "https://www.mit-foodcompany.uz/og-image-new.jpg";
+
+  // Уникальные превью для разных страниц
+  if (path.includes("menu")) {
+    title = "Меню | Mit Food Company";
+    description = "Ознакомьтесь с нашим вкусным меню – бургеры, роллы, напитки и многое другое!";
+    image = "https://www.mit-foodcompany.uz/images/menu-preview.jpg";
+  } else if (path.includes("about")) {
+    title = "О нас | Mit Food Company";
+    description = "Узнайте больше о Mit – современный фастфуд с лучшим сервисом!";
+    image = "https://www.mit-foodcompany.uz/images/about-preview.jpg";
+  }
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: "Mit Food Company",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export default function RootLayout({ children }) {
   return (
