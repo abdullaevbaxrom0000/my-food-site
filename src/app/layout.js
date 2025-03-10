@@ -24,7 +24,7 @@ export function generateMetadata({ params }) {
 
   // Дефолтные значения (если страница не имеет особых настроек)
   let title = "Mit - Your favorite fast food service!";
-  let description = "Visit our web site https://www.mit-foodcompany.uz to enjoy with delicious food and to share with love by donation with Mit!";
+  let description = "Visit our web site https://www.mit-foodcompany.uz to enjoy with delicious food and to share with love by donation with Mit! Бургеры, стики, сендвичы и многое другое в нашем меню. Цены начинаются от 24 000 сум. Мы готовим на совесть ради вас и ради себя!";
   let url = `https://www.mit-foodcompany.uz/${path}`;
   let image = "https://www.mit-foodcompany.uz/og-image-new.jpg";
 
