@@ -102,7 +102,7 @@ export default function LoginPage() {
     const script = document.createElement('script');
     script.src = 'https://telegram.org/js/telegram-widget.js?15';
     script.async = true;
-    script.setAttribute('data-telegram-login', 'MitFoodBot'); // Убедись, что имя бота правильное
+    script.setAttribute('data-telegram-login', 'MitFooduzBot'); // Убедись, что имя бота правильное
     script.setAttribute('data-size', 'large');
     script.setAttribute('data-onauth', 'onTelegramAuth(user)');
     script.setAttribute('data-request-access', 'write');
