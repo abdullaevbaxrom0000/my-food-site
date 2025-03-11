@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -37,7 +37,7 @@ export default function LoginPage() {
     }
   };
 
-  // Обработка входа
+  // Обработка входа через email или телефон
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -69,11 +69,66 @@ export default function LoginPage() {
     }
   };
 
+  // Добавляем Telegram Login Widget через useEffect
+  useEffect(() => {
+    console.log("Инициализация Telegram Login Widget...");
+    // Создаём функцию onTelegramAuth глобально
+    window.onTelegramAuth = (user) => {
+      console.log("Telegram Auth Data:", user);
+      fetch('/api/telegram-login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            console.log("Авторизация успешна:", data);
+            window.location.href = '/profile';
+          } else {
+            console.error('Ошибка авторизации:', data.message);
+            alert('Ошибка авторизации: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Ошибка при авторизации:', error);
+          alert('Ошибка при авторизации. Попробуйте снова.');
+        });
+    };
+
+    // Динамически добавляем Telegram Widget скрипт
+    const script = document.createElement('script');
+    script.src = 'https://telegram.org/js/telegram-widget.js?15';
+    script.async = true;
+    script.setAttribute('data-telegram-login', 'MitFoodBot'); // Убедись, что имя бота правильное
+    script.setAttribute('data-size', 'large');
+    script.setAttribute('data-onauth', 'onTelegramAuth(user)');
+    script.setAttribute('data-request-access', 'write');
+    script.onload = () => console.log("Telegram Widget скрипт загружен");
+    script.onerror = () => console.error("Ошибка загрузки Telegram Widget скрипта");
+
+    const widgetContainer = document.createElement('div');
+    widgetContainer.id = 'telegram-login';
+    const container = document.getElementById('telegram-login-container');
+    if (container) {
+      container.appendChild(widgetContainer);
+      widgetContainer.appendChild(script);
+      console.log("Telegram Widget добавлен в DOM");
+    } else {
+      console.error("Контейнер telegram-login-container не найден");
+    }
+
+    // Очистка при размонтировании компонента
+    return () => {
+      const widget = document.getElementById('telegram-login');
+      if (widget) widget.remove();
+    };
+  }, []);
+
   return (
-    // Внешний контейнер: на мобильных устройствах не применяем flex-центрирование,
-    // чтобы inner-контейнер с h-screen занимал весь экран, а на sm и выше — центрируем.
     <div className="min-h-screen bg-[#414141] sm:flex sm:items-center sm:justify-center">
-      {/* Inner-контейнер: на мобильных устройствах занимает весь экран, на больших — авто */}
       <div className="bg-white w-full h-screen sm:h-auto sm:max-w-md sm:rounded-lg sm:shadow-lg p-6">
         {/* Социальные кнопки */}
         <button className="w-full mb-4 p-2 border border-gray-300 flex items-center justify-center">
@@ -88,6 +143,14 @@ export default function LoginPage() {
           <Image src="/google-icon.svg" alt="Google" width={20} height={20} className="mr-2" />
           Продолжить через Google
         </button>
+
+        {/* Telegram Login Widget */}
+        <div className="flex items-center my-4">
+          <hr className="flex-1 border-gray-300" />
+          <span className="px-2 text-gray-500">или</span>
+          <hr className="flex-1 border-gray-300" />
+        </div>
+        <div id="telegram-login-container" className="mb-4"></div>
 
         {/* Разделитель */}
         <div className="flex items-center my-4">
