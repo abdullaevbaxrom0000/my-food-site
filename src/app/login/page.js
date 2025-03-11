@@ -75,7 +75,7 @@ export default function LoginPage() {
     // Создаём функцию onTelegramAuth глобально
     window.onTelegramAuth = (user) => {
       console.log("Telegram Auth Data:", user);
-      fetch('/api/telegram-login', {
+      fetch('https://mit-food-donation.onrender.com/api/telegram-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
