@@ -10,7 +10,6 @@ export default function LoginPage() {
   // Инициализация Telegram Login Widget
   useEffect(() => {
     console.log("Инициализация Telegram Login Widget...");
-    // Глобальная функция, вызываемая при успешной авторизации Telegram
     window.onTelegramAuth = (user) => {
       console.log("Telegram Auth Data:", user);
       fetch("https://mit-food-donation.onrender.com/api/telegram-login", {
@@ -36,11 +35,10 @@ export default function LoginPage() {
         });
     };
 
-    // Динамически добавляем Telegram Widget скрипт
     const script = document.createElement("script");
     script.src = "https://telegram.org/js/telegram-widget.js?15";
     script.async = true;
-    script.setAttribute("data-telegram-login", "MitFooduzBot"); // Убедитесь, что имя бота правильно
+    script.setAttribute("data-telegram-login", "MitFooduzBot"); // Проверьте, что имя бота указано верно (без @)
     script.setAttribute("data-size", "large");
     script.setAttribute("data-onauth", "onTelegramAuth(user)");
     script.setAttribute("data-request-access", "write");
@@ -49,6 +47,8 @@ export default function LoginPage() {
 
     const widgetContainer = document.createElement("div");
     widgetContainer.id = "telegram-login";
+    // Этот контейнер будет иметь такую же квадратную обводку, как и остальные кнопки
+    widgetContainer.className = "w-full border border-gray-300 p-2 flex items-center justify-center";
     const container = document.getElementById("telegram-login-container");
     if (container) {
       container.appendChild(widgetContainer);
@@ -58,7 +58,6 @@ export default function LoginPage() {
       console.error("Контейнер telegram-login-container не найден");
     }
 
-    // Очистка при размонтировании компонента
     return () => {
       const widget = document.getElementById("telegram-login");
       if (widget) widget.remove();
@@ -66,11 +65,12 @@ export default function LoginPage() {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-[#414141] flex items-center justify-center">
-      <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6">
+    <div className="min-h-screen bg-[#414141] sm:flex sm:items-center sm:justify-center">
+      {/* На мобильных занимает весь экран, на десктопе - карточка с максимальной шириной */}
+      <div className="bg-white w-full h-screen sm:h-auto sm:max-w-md sm:rounded-lg sm:shadow-lg p-6">
         <h1 className="text-center text-xl font-bold mb-6">Войти</h1>
         <div className="space-y-4">
-          {/* Кнопки для социальных логинов */}
+          {/* Кнопка Facebook */}
           <button className="w-full p-2 border border-gray-300 flex items-center justify-center">
             <Image
               src="/facebook-icon.svg"
@@ -81,6 +81,7 @@ export default function LoginPage() {
             />
             Продолжить через Facebook
           </button>
+          {/* Кнопка Apple */}
           <button className="w-full p-2 border border-gray-300 flex items-center justify-center">
             <Image
               src="/apple-icon.svg"
@@ -91,6 +92,7 @@ export default function LoginPage() {
             />
             Продолжить через Apple
           </button>
+          {/* Кнопка Google */}
           <button className="w-full p-2 border border-gray-300 flex items-center justify-center">
             <Image
               src="/google-icon.svg"
@@ -101,8 +103,8 @@ export default function LoginPage() {
             />
             Продолжить через Google
           </button>
-          {/* Блок для Telegram Login Widget */}
-          <div id="telegram-login-container" className="flex justify-center"></div>
+          {/* Контейнер для Telegram Login Widget с квадратной обводкой */}
+          <div id="telegram-login-container" className="w-full"></div>
         </div>
       </div>
     </div>
