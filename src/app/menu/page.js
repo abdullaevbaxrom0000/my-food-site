@@ -432,7 +432,7 @@ export default function Menu() {
     const socketRef = useRef(null);
 
     useEffect(() => {
-      socketRef.current = io('https://mit-food-donation.onrender.com');
+      socketRef.current = io('https://api.mit-foodcompany.uz');
       const socket = socketRef.current;
     
       socket.on('connect', () => {
