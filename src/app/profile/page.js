@@ -30,19 +30,22 @@ export default function ProfilePage() {
       const response = await fetch("https://mit-food-donation.onrender.com/api/logout", {
         method: "POST",
         credentials: "include", // Отправляем cookie с запросом
+        headers: {
+          "Content-Type": "application/json", // Явно указываем тип контента
+        },
       });
 
       const data = await response.json();
       if (data.success) {
         console.log("Выход успешен:", data.message);
-        router.push("/"); // Перенаправляем на страницу логина
+        router.push("/"); // Перенаправляем на главную страницу
       } else {
         console.error("Ошибка при выходе:", data.message);
         alert("Ошибка при выходе: " + data.message);
       }
     } catch (error) {
       console.error("Ошибка при выходе:", error);
-      alert("Ошибка при выходе. Попробуйте снова.");
+      alert("Ошибка при выходе. Проверь консоль для деталей.");
     }
   };
 
