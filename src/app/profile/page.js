@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation"; // Импорт useRouter для навигации
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useRouter(); // Инициализация useRouter
+  const router = useRouter();
 
   const sidebarItems = [
     { label: "Меню", icon: "menu.svg" },
@@ -25,9 +25,25 @@ export default function ProfilePage() {
     alert("Изменить фото профиля");
   };
 
-  const handleLogout = () => {
-    alert("Вы вышли из аккаунта");
-    router.push("/"); // Перенаправление на главную страницу
+  const handleLogout = async () => {
+    try {
+      const response = await fetch("https://mit-food-donation.onrender.com/api/logout", {
+        method: "POST",
+        credentials: "include", // Отправляем cookie с запросом
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log("Выход успешен:", data.message);
+        router.push("/"); // Перенаправляем на страницу логина
+      } else {
+        console.error("Ошибка при выходе:", data.message);
+        alert("Ошибка при выходе: " + data.message);
+      }
+    } catch (error) {
+      console.error("Ошибка при выходе:", error);
+      alert("Ошибка при выходе. Попробуйте снова.");
+    }
   };
 
   return (
@@ -97,7 +113,6 @@ export default function ProfilePage() {
               </button>
             ))}
           </nav>
-          {/* Кнопка "Выход" для десктопной версии */}
           <button
             onClick={handleLogout}
             className="mt-3 w-full py-1 bg-[#1333EA] text-white font-medium rounded-xl hover:bg-red-600 transition-colors"
@@ -131,7 +146,7 @@ export default function ProfilePage() {
               </div>
               <div className="mt-4">
                 <p className="text-sm text-gray-500">
-                  Для повышения уровня делайте больше заказов и Донатов! Следующий уровень: 
+                  Для повышения уровня делайте больше заказов и Донатов! Следующий уровень:
                   <span className="text-blue-600 font-medium"> Продвинутый</span> (10% кэшбэк) после 5 заказов.
                 </p>
               </div>
@@ -186,7 +201,6 @@ export default function ProfilePage() {
                 </button>
               ))}
             </nav>
-            {/* Кнопка "Выход" для мобильной версии */}
             <button
               onClick={handleLogout}
               className="fixed bottom-4 left-4 right-4 py-3 bg-[#1333EA] text-white font-medium rounded-full hover:bg-red-600 transition-colors"
