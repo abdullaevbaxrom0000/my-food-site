@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -30,24 +30,23 @@ export default function ProfilePage() {
       const response = await fetch("https://mit-food-donation.onrender.com/api/logout", {
         method: "POST",
         credentials: "include", // Отправляем cookie с запросом
-        headers: {
-          "Content-Type": "application/json", // Явно указываем тип контента
-        },
+        headers: { "Content-Type": "application/json" },
       });
-
       const data = await response.json();
       if (data.success) {
         console.log("Выход успешен:", data.message);
-        router.push("/"); // Перенаправляем на главную страницу
+        router.push("/login"); // Перенаправляем на страницу логина
       } else {
         console.error("Ошибка при выходе:", data.message);
         alert("Ошибка при выходе: " + data.message);
       }
     } catch (error) {
       console.error("Ошибка при выходе:", error);
-      alert("Ошибка при выходе. Проверь консоль для деталей.");
+      alert("Ошибка при выходе. Проверьте консоль для деталей.");
     }
   };
+
+  // Опционально можно добавить проверку наличия активной сессии и перенаправление, если пользователь не авторизован.
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -68,26 +67,16 @@ export default function ProfilePage() {
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             {isMobileMenuOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             )}
           </svg>
         </button>
       </div>
 
       <div className="flex">
-        {/* Боковая панель для десктопной версии */}
+        {/* Боковая панель для десктопа */}
         <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 p-6 shadow-sm h-screen sticky top-0">
           <div className="flex flex-col items-center mb-8">
             <button onClick={handleProfilePhotoClick} className="mb-3 relative group">
@@ -131,7 +120,7 @@ export default function ProfilePage() {
             <div className="flex items-center space-x-4 mb-6">
               <div>
                 <h2 className="text-xl font-semibold text-gray-800">Имя пользователя</h2>
-                <p className="text-sm text-gray-500">+998 99 123 45 67 / адресс почты</p>
+                <p className="text-sm text-gray-500">+998 99 123 45 67 / адрес почты</p>
               </div>
             </div>
             <div className="space-y-4">
@@ -158,7 +147,7 @@ export default function ProfilePage() {
         </main>
       </div>
 
-      {/* Мобильное меню (выезжающее) */}
+      {/* Мобильное меню */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
