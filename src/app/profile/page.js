@@ -35,7 +35,7 @@ export default function ProfilePage() {
       const data = await response.json();
       if (data.success) {
         console.log("Выход успешен:", data.message);
-        router.push("/login"); // Перенаправляем на страницу логина
+        router.push("/"); // Перенаправляем на страницу логина
       } else {
         console.error("Ошибка при выходе:", data.message);
         alert("Ошибка при выходе: " + data.message);
