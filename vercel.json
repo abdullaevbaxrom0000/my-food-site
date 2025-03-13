@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/api/(.*)",
+        "destination": "https://api.mit-foodcompany.uz/api/$1"
+      }
+    ]
+  }
