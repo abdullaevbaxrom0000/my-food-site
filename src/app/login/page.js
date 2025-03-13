@@ -11,7 +11,7 @@ export default function LoginPage() {
     console.log("Инициализация Telegram Login Widget...");
     window.onTelegramAuth = (user) => {
       console.log("Telegram Auth Data:", user);
-      fetch("https://api.mit-foodcompany.uz/api/telegram-login", {
+      fetch("/api/telegram-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
