@@ -38,7 +38,7 @@ export default function LoginPage() {
     script.src = "https://telegram.org/js/telegram-widget.js?15";
     script.async = true;
     script.setAttribute("data-telegram-login", "MitFooduzBot");
-    script.setAttribute("data-size", "large");
+    script.setAttribute("data-size", "medium");
     script.setAttribute("data-onauth", "onTelegramAuth(user)");
     script.setAttribute("data-request-access", "write");
     script.onload = () => console.log("Telegram Widget скрипт загружен");
@@ -70,7 +70,7 @@ export default function LoginPage() {
           <h1 className="text-center text-xl font-bold mb-[5%]">Войти</h1>
           <div className="flex flex-col items-center justify-center space-y-[2vh]">
             {/* Кнопка Facebook */}
-            <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center">
+            <button className="w-full py-[2%] border border-white flex items-center justify-center">
               <Image
                 src="/facebook-icon.svg"
                 alt="Facebook"
@@ -81,7 +81,7 @@ export default function LoginPage() {
               Продолжить через Facebook
             </button>
             {/* Кнопка Apple */}
-            <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center">
+            <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center text-sm">
               <Image
                 src="/apple-icon.svg"
                 alt="Apple"
@@ -89,7 +89,7 @@ export default function LoginPage() {
                 height={20}
                 className="mr-[2%]"
               />
-              Продолжить через Apple
+              Войти через Apple
             </button>
             {/* Кнопка Google */}
             <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center">
