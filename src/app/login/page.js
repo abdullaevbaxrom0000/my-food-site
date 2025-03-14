@@ -46,7 +46,7 @@ export default function LoginPage() {
 
     const widgetContainer = document.createElement("div");
     widgetContainer.id = "telegram-login";
-    widgetContainer.className = "w-full border border-gray-300 p-2 flex items-center justify-center";
+    widgetContainer.className = "w-full border border-white p-2 flex items-center justify-center";
     const container = document.getElementById("telegram-login-container");
     if (container) {
       container.appendChild(widgetContainer);
@@ -67,10 +67,10 @@ export default function LoginPage() {
       {/* Полный экран для мобильных с использованием h-screen */}
       <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-lg sm:mt-[-10vh] p-[5vw]">
         <div className="w-full max-w-[80%] sm:max-w-[90%]">
-          <h1 className="text-center text-xl font-bold mb-[5%]">Войти</h1>
+          <h1 className="text-center text-xl font-bold mb-[5%]"></h1>
           <div className="flex flex-col items-center justify-center space-y-[2vh]">
             {/* Кнопка Facebook */}
-            <button className="w-full py-[2%] border border-white flex items-center justify-center">
+            <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
               <Image
                 src="/facebook-icon.svg"
                 alt="Facebook"
@@ -78,10 +78,10 @@ export default function LoginPage() {
                 height={20}
                 className="mr-[2%]"
               />
-              Продолжить через Facebook
+              Войти через Facebook
             </button>
             {/* Кнопка Apple */}
-            <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center text-sm">
+            <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
               <Image
                 src="/apple-icon.svg"
                 alt="Apple"
@@ -92,7 +92,7 @@ export default function LoginPage() {
               Войти через Apple
             </button>
             {/* Кнопка Google */}
-            <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center">
+            <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
               <Image
                 src="/google-icon.svg"
                 alt="Google"
@@ -100,7 +100,7 @@ export default function LoginPage() {
                 height={20}
                 className="mr-[2%]"
               />
-              Продолжить через Google
+              Войти через Google
             </button>
             {/* Контейнер для Telegram Login Widget */}
             <div id="telegram-login-container" className="w-full" />
