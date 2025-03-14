@@ -62,51 +62,99 @@ export default function LoginPage() {
     };
   }, [router]);
 
+ // После Telegram useEffect
+useEffect(() => {
+  // Telegram код остаётся без изменений
+  console.log("Инициализация Telegram Login Widget...");
+  // ... (весь Telegram-код остаётся)
+
+  // Добавляем Google
+  console.log("Инициализация Google Sign-In...");
+  const scriptGoogle = document.createElement("script");
+  scriptGoogle.src = "https://accounts.google.com/gsi/client";
+  scriptGoogle.async = true;
+  scriptGoogle.onload = () => {
+    console.log("Google Sign-In скрипт загружен");
+    window.google.accounts.id.initialize({
+      client_id: "741766418324-0mfil3m2drid8npi1mci0ona4m144mhf.apps.googleusercontent.com", // Замени на свой Client ID от Google
+      callback: handleGoogleSignIn,
+    });
+    window.google.accounts.id.renderButton(
+      document.getElementById("google-signin-button"),
+      { theme: "outline", size: "large" } // Настройки кнопки
+    );
+  };
+  scriptGoogle.onerror = () => console.error("Ошибка загрузки Google скрипта");
+  document.body.appendChild(scriptGoogle);
+
+  return () => {
+    const widget = document.getElementById("telegram-login");
+    if (widget) widget.remove();
+    const googleScript = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
+    if (googleScript) googleScript.remove();
+  };
+}, [router]);
+
+// Функция обработки Google Sign-In
+const handleGoogleSignIn = (response) => {
+  console.log("Google Auth Data:", response);
+  fetch("/api/google-login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ credential: response.credential }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        console.log("Google авторизация успешна:", data);
+        router.push("/profile");
+      } else {
+        console.error("Ошибка Google авторизации:", data.message);
+        alert("Ошибка авторизации: " + data.message);
+      }
+    })
+    .catch((error) => {
+      console.error("Ошибка при Google авторизации:", error);
+      alert("Ошибка при авторизации через Google.");
+    });
+};
+
   return (
-    <div className="min-h-screen bg-[#414141] flex items-center justify-center">
-      {/* Полный экран для мобильных с использованием h-screen */}
-      <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-lg sm:mt-[-10vh] p-[5vw]">
-        <div className="w-full max-w-[80%] sm:max-w-[90%]">
-          <h1 className="text-center text-xl font-bold mb-[5%]"></h1>
-          <div className="flex flex-col items-center justify-center space-y-[2vh]">
-            {/* Кнопка Facebook */}
-            <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
-              <Image
-                src="/facebook-icon.svg"
-                alt="Facebook"
-                width={20}
-                height={20}
-                className="mr-[2%]"
-              />
-              Войти через Facebook
-            </button>
-            {/* Кнопка Apple */}
-            <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
-              <Image
-                src="/apple-icon.svg"
-                alt="Apple"
-                width={20}
-                height={20}
-                className="mr-[2%]"
-              />
-              Войти через Apple
-            </button>
-            {/* Кнопка Google */}
-            <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
-              <Image
-                src="/google-icon.svg"
-                alt="Google"
-                width={20}
-                height={20}
-                className="mr-[2%]"
-              />
-              Войти через Google
-            </button>
-            {/* Контейнер для Telegram Login Widget */}
-            <div id="telegram-login-container" className="w-full" />
-          </div>
+  <div className="min-h-screen bg-[#414141] flex items-center justify-center">
+    {/* Полный экран для мобильных с использованием h-screen */}
+    <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-lg sm:mt-[-10vh] p-[5vw]">
+      <div className="w-full max-w-[80%] sm:max-w-[90%]">
+        <h1 className="text-center text-xl font-bold mb-[5%]"></h1>
+        <div className="flex flex-col items-center justify-center space-y-[2vh]">
+          {/* Кнопка Facebook */}
+          <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
+            <Image
+              src="/facebook-icon.svg"
+              alt="Facebook"
+              width={20}
+              height={20}
+              className="mr-[2%]"
+            />
+            Войти через Facebook
+          </button>
+          {/* Кнопка Apple */}
+          <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
+            <Image
+              src="/apple-icon.svg"
+              alt="Apple"
+              width={20}
+              height={20}
+              className="mr-[2%]"
+            />
+            Войти через Apple
+          </button>
+          {/* Кнопка Google */}
+          <div id="google-signin-button" className="w-full"></div>
+          {/* Контейнер для Telegram Login Widget */}
+          <div id="telegram-login-container" className="w-full" />
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
