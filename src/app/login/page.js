@@ -121,26 +121,22 @@ const handleGoogleSignIn = (response) => {
     });
 };
 
-  return (
+return (
   <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center">
-    {/* Полный экран для мобильных с использованием h-screen */}
-    <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-(lg sm:mt-[-10vh] p-[5vw]">
+    <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-lg sm:mt-[-10vh] p-[5vw]">
       <div className="w-full max-w-[80%] sm:max-w-[90%]">
-        <h1 className="text-center text-xl font-bold mb-[5%]"></h1>
+        <h1 className="text-center text-xl font-bold mb-[5%]">Вход</h1>
         <div className="flex flex-col items-center justify-center space-y-[2vh]">
-          {/* Кнопка Facebook */}
-          <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
-            <Image
-              src="/facebook-icon.svg"
-              alt="Facebook"
-              width={20}
-              height={20}
-              className="mr-[2%]"
-            />
-            Войти через Facebook
-          </button>
-          {/* Кнопка Apple */}
-          <button className="w-full py-[2%] border border-white flex items-center justify-center text-sm">
+          {/* Кнопка Google (без бордера) */}
+          <div className="w-full flex justify-center">
+            <div id="google-signin-button"></div>
+          </div>
+
+          {/* Контейнер для Telegram Login Widget (без бордера) */}
+          <div id="telegram-login-container" className="w-full flex justify-center"></div>
+
+          {/* Кнопка Apple (с бордером) */}
+          <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center text-sm rounded-lg">
             <Image
               src="/apple-icon.svg"
               alt="Apple"
@@ -150,12 +146,18 @@ const handleGoogleSignIn = (response) => {
             />
             Войти через Apple
           </button>
-          {/* Кнопка Google */}
-          <div className="w-full flex justify-center">
-  <div id="google-signin-button"></div>
-</div>
-          {/* Контейнер для Telegram Login Widget */}
-          <div id="telegram-login-container" className="w-full" />
+
+          {/* Кнопка Facebook (с бордером) */}
+          <button className="w-full py-[2%] border border-gray-300 flex items-center justify-center text-sm rounded-lg">
+            <Image
+              src="/facebook-icon.svg"
+              alt="Facebook"
+              width={20}
+              height={20}
+              className="mr-[2%]"
+            />
+            Войти через Facebook
+          </button>
         </div>
       </div>
     </div>
