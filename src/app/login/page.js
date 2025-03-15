@@ -79,6 +79,7 @@ useEffect(() => {
       client_id: "741766418324-0mfil3m2drid8npi1mci0ona4m144mhf.apps.googleusercontent.com", // Замени на свой Client ID от Google
       callback: handleGoogleSignIn,
       ux_mode: 'popup',
+      prompt: 'select_account',
     });
     window.google.accounts.id.renderButton(
       document.getElementById("google-signin-button"),
