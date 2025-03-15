@@ -120,7 +120,7 @@ const handleGoogleSignIn = (response) => {
 };
 
   return (
-  <div className="min-h-screen bg-[#414141] flex items-center justify-center">
+  <div className="min-h-screen bg-[#000000] flex items-center justify-center">
     {/* Полный экран для мобильных с использованием h-screen */}
     <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-lg sm:mt-[-10vh] p-[5vw]">
       <div className="w-full max-w-[80%] sm:max-w-[90%]">
