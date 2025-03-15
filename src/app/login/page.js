@@ -78,6 +78,7 @@ useEffect(() => {
     window.google.accounts.id.initialize({
       client_id: "741766418324-0mfil3m2drid8npi1mci0ona4m144mhf.apps.googleusercontent.com", // Замени на свой Client ID от Google
       callback: handleGoogleSignIn,
+      ux_mode: 'popup',
     });
     window.google.accounts.id.renderButton(
       document.getElementById("google-signin-button"),
@@ -122,7 +123,7 @@ const handleGoogleSignIn = (response) => {
   return (
   <div className="min-h-screen bg-[#FFFFFF] flex items-center justify-center">
     {/* Полный экран для мобильных с использованием h-screen */}
-    <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-(lg) sm:mt-[-10vh] p-[5vw]">
+    <div className="bg-white w-full h-screen flex items-center justify-center sm:w-[40vw] sm:h-auto sm:rounded-lg sm:shadow-(lg sm:mt-[-10vh] p-[5vw]">
       <div className="w-full max-w-[80%] sm:max-w-[90%]">
         <h1 className="text-center text-xl font-bold mb-[5%]"></h1>
         <div className="flex flex-col items-center justify-center space-y-[2vh]">
