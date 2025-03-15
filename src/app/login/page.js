@@ -149,7 +149,9 @@ const handleGoogleSignIn = (response) => {
             Войти через Apple
           </button>
           {/* Кнопка Google */}
-          <div id="google-signin-button" className="w-full"></div>
+          <div className="w-full flex justify-center">
+  <div id="google-signin-button"></div>
+</div>
           {/* Контейнер для Telegram Login Widget */}
           <div id="telegram-login-container" className="w-full" />
         </div>
