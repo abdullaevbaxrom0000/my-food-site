@@ -6,7 +6,7 @@
 
 /* Переменные для фоновых и текстовых цветов (темная/светлая тема) */
 :root {
-  --background: #ffffff;
+  --background: #FFFFFF;
   --foreground: #171717;
   --primary: #FDC801; /* Цвет из Figma */
 }

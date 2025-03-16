@@ -97,12 +97,13 @@ export default function ProfilePage() {
           <nav className="flex flex-col space-y-2 flex-1">
             {sidebarItems.map((item) => (
               <button
-                key={item.label}
-                className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <Image src={item.icon} alt={item.label} width={24} height={24} />
-                <span className="font-medium">{item.label}</span>
-              </button>
+              key={item.label}
+              className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={() => item.label === "Меню" ? router.push("/menu") : null}
+            >
+              <Image src={item.icon} alt={item.label} width={24} height={24} />
+              <span className="font-medium">{item.label}</span>
+            </button>
             ))}
           </nav>
           <button
@@ -184,13 +185,16 @@ export default function ProfilePage() {
             <nav className="flex flex-col space-y-3 flex-1">
               {sidebarItems.map((item) => (
                 <button
-                  key={item.label}
-                  className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg w-full text-left transition-colors"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <Image src={item.icon} alt={item.label} width={24} height={24} />
-                  <span className="font-medium">{item.label}</span>
-                </button>
+                key={item.label}
+                className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg w-full text-left transition-colors"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (item.label === "Меню") router.push("/menu");
+                }}
+              >
+                <Image src={item.icon} alt={item.label} width={24} height={24} />
+                <span className="font-medium">{item.label}</span>
+              </button>
               ))}
             </nav>
             <button
