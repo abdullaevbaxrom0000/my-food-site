@@ -292,7 +292,7 @@ export default function Navbar() {
               onClick={isAuthenticated ? handleProfile : handleLogin} // Условный обработчик
               className="px-4 py-2 text-sm font-normal font-['Roboto'] bg-transparent relative z-10"
             >
-              {isAuthenticated ? "Личный кабинет" : "Войти"} // Условный текст
+              {isAuthenticated ? "Личный кабинет" : "Войти"}
             </button>
           ) : (
             <p className="mx-4 text-sm font-medium text-gray-700 relative z-10">
@@ -379,7 +379,7 @@ export default function Navbar() {
                 onClick={isAuthenticated ? handleProfile : handleLogin} // Условный обработчик
                 className="px-2 py-2 text-xs font-normal font-['Roboto'] bg-transparent"
               >
-                {isAuthenticated ? "Личный кабинет" : "Войти"} // Условный текст
+                {isAuthenticated ? "Личный кабинет" : "Войти"} 
               </button>
             ) : (
               <p className="mx-4 text-xs font-medium text-gray-700">Загрузка...</p>
