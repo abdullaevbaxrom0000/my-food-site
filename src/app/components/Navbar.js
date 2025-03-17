@@ -9,6 +9,7 @@ export default function Navbar() {
   const [loading, setLoading] = useState(false);
   const [currentLang, setCurrentLang] = useState("Ру");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Добавлено для проверки авторизации
   const router = useRouter();
   const langRef = useRef(null);
 
@@ -18,6 +19,7 @@ export default function Navbar() {
   const [spotlightVisible, setSpotlightVisible] = useState(false);
   const [isLangDropdownVisible, setIsLangDropdownVisible] = useState(false);
 
+  // Проверка кликов вне выпадающего меню языка
   useEffect(() => {
     function handleClickOutside(event) {
       if (langRef.current && !langRef.current.contains(event.target)) {
@@ -28,16 +30,30 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [langRef]);
 
+  // Проверка статуса авторизации при загрузке
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("/api/check-auth", {
+          method: "GET",
+          credentials: "include", // Отправляем куки с запросом
+        });
+        const data = await response.json();
+        setIsAuthenticated(data.isAuthenticated);
+      } catch (error) {
+        console.error("Ошибка проверки авторизации:", error);
+        setIsAuthenticated(false);
+      }
+    };
+    checkAuthStatus();
+  }, []);
+
   const navItems = [
-    { label: "Меню", href: "/menu" }, //"Главное", href: "/"
-    { label: "Главная", href: "/" }, // "Стратегия", href: "/strategy" },
-    //{ label: "Финансы", href: "/finance" },
-   // { label: "Масштабирование", href: "/scaling" },
-    //{ label: "Конструкция", href: "/construction" },
+    { label: "Меню", href: "/menu" },
+    { label: "Главная", href: "/" },
     { label: "УТП", href: "/utp" },
     { label: "Стратегия", href: "/strategy" },
     { label: "Миссия", href: "/mission" },
-    //{ label: "Бренд", href: "/brand" },
     { label: "Материалы", href: "/materials" },
     { label: "Язык", href: "#" },
   ];
@@ -57,6 +73,10 @@ export default function Navbar() {
   const handleLogin = () => {
     setLoading(true);
     setTimeout(() => router.push("/login"), 500);
+  };
+
+  const handleProfile = () => {
+    router.push("/profile"); // Переход на страницу профиля
   };
 
   const handleNavMouseMove = (e) => {
@@ -88,7 +108,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 w-screen bg-white  text-black z-[100] overflow-visible border-b border-gray-300">
+    <div className="fixed top-0 left-0 w-screen bg-white text-black z-[100] overflow-visible border-b border-gray-300">
       <motion.div
         className="flex items-center px-4 sm:px-10 h-[80px] sm:h-[100px] relative"
         variants={desktopVariants}
@@ -129,12 +149,7 @@ export default function Navbar() {
             className="w-[79px] h-[75px] flex justify-center items-center sm:hidden"
             style={{ zIndex: 20 }}
           >
-            <Image
-              src="/logo1.svg"
-              alt="Логотип"
-              width={60}
-              height={60}
-            />
+            <Image src="/logo1.svg" alt="Логотип" width={60} height={60} />
           </div>
 
           {/* Логотип и текст "Концепция" для десктопа */}
@@ -146,9 +161,7 @@ export default function Navbar() {
               height={50}
               className="mr-4"
             />
-            <div className="text-[12px] sm:text-[40px] font-semibold font-['Roboto'] tracking-wider">
-              
-            </div>
+            <div className="text-[12px] sm:text-[40px] font-semibold font-['Roboto'] tracking-wider"></div>
           </div>
 
           {/* Кнопка "гамбургер" для мобильных */}
@@ -177,9 +190,7 @@ export default function Navbar() {
             item.label === "Язык" ? (
               <div key={item.label} ref={langRef} className="relative flex items-center">
                 <button
-                  onClick={() =>
-                    setIsLangDropdownVisible(!isLangDropdownVisible)
-                  }
+                  onClick={() => setIsLangDropdownVisible(!isLangDropdownVisible)}
                   onMouseEnter={(e) => handleMouseEnter(item.label, e)}
                   onMouseLeave={() => handleMouseLeave(item.label)}
                   className="px-4 py-2 bg-transparent text-sm font-normal font-['Roboto'] flex items-center"
@@ -278,10 +289,10 @@ export default function Navbar() {
           )}
           {!loading ? (
             <button
-              onClick={handleLogin}
+              onClick={isAuthenticated ? handleProfile : handleLogin} // Условный обработчик
               className="px-4 py-2 text-sm font-normal font-['Roboto'] bg-transparent relative z-10"
             >
-              Войти
+              {isAuthenticated ? "Личный кабинет" : "Войти"} // Условный текст
             </button>
           ) : (
             <p className="mx-4 text-sm font-medium text-gray-700 relative z-10">
@@ -293,15 +304,13 @@ export default function Navbar() {
 
       {/* Мобильное меню на полный экран */}
       {isMobileMenuOpen && (
-        <div className="fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] bg-gradient-to-b from-[#FFA424] to-[#FEDC7C]  shadow-lg z-20 sm:hidden overflow-y-auto">
+        <div className="fixed top-[80px] left-0 w-full h-[calc(100vh-80px)] bg-gradient-to-b from-[#FFA424] to-[#FEDC7C] shadow-lg z-20 sm:hidden overflow-y-auto">
           <div className="flex flex-col items-start space-y-4 p-4 pl-7">
             {navItems.map((item) =>
               item.label === "Язык" ? (
                 <div key={item.label} ref={langRef} className="relative flex items-center">
                   <button
-                    onClick={() =>
-                      setIsLangDropdownVisible(!isLangDropdownVisible)
-                    }
+                    onClick={() => setIsLangDropdownVisible(!isLangDropdownVisible)}
                     className="px-2 py-2 bg-transparent text-xs font-normal font-['Roboto'] flex items-center"
                   >
                     {item.label}
@@ -367,15 +376,13 @@ export default function Navbar() {
             )}
             {!loading ? (
               <button
-                onClick={handleLogin}
+                onClick={isAuthenticated ? handleProfile : handleLogin} // Условный обработчик
                 className="px-2 py-2 text-xs font-normal font-['Roboto'] bg-transparent"
               >
-                Войти
+                {isAuthenticated ? "Личный кабинет" : "Войти"} // Условный текст
               </button>
             ) : (
-              <p className="mx-4 text-xs font-medium text-gray-700">
-                Загрузка...
-              </p>
+              <p className="mx-4 text-xs font-medium text-gray-700">Загрузка...</p>
             )}
           </div>
         </div>
