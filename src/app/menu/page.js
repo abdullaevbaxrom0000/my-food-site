@@ -1384,32 +1384,69 @@ export default function Menu() {
 
 
 
+
+                
+
                 <button
   className="w-1/2 max-w-xs py-3 bg-[#28a745] text-white font-semibold rounded-full hover:bg-opacity-80 transition-all ml-2"
-  onClick={() => {
-    if (socketRef.current) {
-      // Фильтруем только товары с fromMenu: true
-      const donationItems = orderItems.filter(item => item.fromMenu === true);
-      if (donationItems.length > 0) {
-        socketRef.current.emit('paymentCompleted', donationItems);
-        console.log('Отправлены для донатов:', donationItems);
-      } else {
-        console.log('Нет товаров для донатов (fromMenu: true)');
-      }
-      // Обновляем алерт и очищаем корзину для всех товаров
-      alert(
-        `Ваш заказ на сумму ${orderItems
-          .reduce(
-            (sum, item) =>
-              sum + parseInt(item.price.replace(/\D/g, "")) * item.quantity,
-            0
-          )
-          .toLocaleString()} сум отправлен. (Пример)`
+  onClick={async () => {
+    if (socketRef.current && orderItems.length > 0) {
+      // Рассчитываем общую сумму заказа
+      const totalAmount = orderItems.reduce(
+        (sum, item) => sum + parseInt(item.price.replace(/\D/g, "")) * item.quantity,
+        0
       );
-      setOrderItems([]);
-      setIsOrderSummaryOpen(false);
+
+      // Отправляем заказ на сервер
+      const sessionToken = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("sessionToken="))
+        ?.split("=")[1];
+
+      if (!sessionToken) {
+        alert("Пожалуйста, авторизуйтесь!");
+        router.push("/");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/create-order", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ orderAmount: totalAmount }),
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          // Уведомление об успешной оплате и начислении кэшбэка
+          alert(
+            `Ваш заказ на сумму ${totalAmount.toLocaleString()} сум оплачен. Начислен кэшбэк: ${data.cashbackAmount} UZS`
+          );
+
+          // Очищаем корзину
+          setOrderItems([]);
+          setIsOrderSummaryOpen(false);
+
+          // Обновляем данные профиля (например, кэшбэк)
+          const userResponse = await fetch("/api/user", {
+            credentials: "include",
+            headers: { Cookie: `sessionToken=${sessionToken}` },
+          });
+          const userData = await userResponse.json();
+          if (userData.success) {
+            // Здесь можно обновить состояние userData, если нужно отобразить кэшбэк на этой странице
+            console.log("Обновлённый кэшбэк:", userData.total_cashback);
+          }
+        } else {
+          alert("Ошибка при оплате: " + data.message);
+        }
+      } catch (err) {
+        console.error("Ошибка при отправке заказа:", err);
+        alert("Ошибка при оплате. Проверьте консоль для деталей.");
+      }
     } else {
-      console.log('Сокет не инициализирован');
+      console.log("Сокет не инициализирован или корзина пуста");
     }
   }}
   disabled={orderItems.length === 0}
