@@ -21,6 +21,7 @@ export default function LoginPage() {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
+            console.log("Проверяем куки:", document.cookie); // Добавьте эту строку
             console.log("Авторизация успешна:", data);
             router.push("/profile");
           } else {
@@ -108,6 +109,7 @@ const handleGoogleSignIn = (response) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
+        console.log("Проверяем куки:", document.cookie); // Добавьте эту строку
         console.log("Google авторизация успешна:", data);
         router.push("/profile");
       } else {
