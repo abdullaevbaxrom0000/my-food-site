@@ -31,39 +31,37 @@ export default function ProfilePage() {
     { label: "Фуд пакеты", icon: "orders.svg" },
   ];
 
+
   useEffect(() => {
-    // Проверка авторизации и получение данных пользователя
     const checkAuthAndFetchData = async () => {
       const sessionToken = document.cookie
         .split("; ")
         .find((row) => row.startsWith("sessionToken="))
         ?.split("=")[1];
-
+  
       if (!sessionToken) {
-        router.push("/login"); // Перенаправление на страницу логина
+        router.push("/login"); // Перенаправляем на логин
         return;
       }
-
+  
       try {
-        // Проверка авторизации
         const authResponse = await fetch("/api/check-auth", {
           credentials: "include",
           headers: { Cookie: `sessionToken=${sessionToken}` },
         });
         const authData = await authResponse.json();
-
-        if (!authData.success) {
-          router.push("/login"); // Перенаправление, если сессия недействительна
+  
+        if (!authData.isAuthenticated) { // Изменено на isAuthenticated
+          router.push("/login"); // Перенаправляем на логин
           return;
         }
-
-        // Запрос данных пользователя (включая кэшбэк)
+  
         const userResponse = await fetch("/api/user", {
           credentials: "include",
           headers: { Cookie: `sessionToken=${sessionToken}` },
         });
         const userDataResponse = await userResponse.json();
-
+  
         if (userDataResponse.success) {
           setUserData({
             name: userDataResponse.username || "Имя пользователя",
@@ -75,12 +73,12 @@ export default function ProfilePage() {
         }
       } catch (err) {
         console.error("Ошибка при загрузке данных:", err);
-        router.push("/login"); // Перенаправление в случае ошибки
+        router.push("/login"); // Перенаправляем на логин в случае ошибки
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     checkAuthAndFetchData();
   }, [router]);
 
