@@ -1398,22 +1398,13 @@ export default function Menu() {
       );
 
       // Отправляем заказ на сервер
-      const sessionToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("sessionToken="))
-        ?.split("=")[1];
-
-      if (!sessionToken) {
-        alert("Пожалуйста, авторизуйтесь!");
-        router.push("/");
-        return;
-      }
+      
 
       try {
         const response = await fetch("/api/create-order", {
           method: "POST",
           credentials: "include",
-          headers: { "Content-Type": "application/json" },
+          
           body: JSON.stringify({ orderAmount: totalAmount }),
         });
         const data = await response.json();
@@ -1431,7 +1422,7 @@ export default function Menu() {
           // Обновляем данные профиля (например, кэшбэк)
           const userResponse = await fetch("/api/user", {
             credentials: "include",
-            headers: { Cookie: `sessionToken=${sessionToken}` },
+            
           });
           const userData = await userResponse.json();
           if (userData.success) {
