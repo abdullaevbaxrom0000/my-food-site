@@ -7,16 +7,6 @@ import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCashbackModalOpen, setIsCashbackModalOpen] = useState(false); // Для модального окна
-  const [userData, setUserData] = useState({
-    name: "Имя пользователя",
-    phone: "+998 99 123 45 67",
-    email: "адрес почты",
-    level: "Стартер",
-    cashback: 0, // Динамическая сумма кэшбэка
-  });
-  const [cashbackHistory, setCashbackHistory] = useState([]); // История кэшбэка
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   const sidebarItems = [
@@ -31,59 +21,6 @@ export default function ProfilePage() {
     { label: "Фуд пакеты", icon: "orders.svg" },
   ];
 
-  useEffect(() => {
-    // Проверка авторизации и получение данных пользователя
-    const checkAuthAndFetchData = async () => {
-      const sessionToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("sessionToken="))
-        ?.split("=")[1];
-
-      if (!sessionToken) {
-        router.push("/"); // Перенаправление на страницу логина
-        return;
-      }
-
-      try {
-        // Проверка авторизации
-        const authResponse = await fetch("/api/check-auth", {
-          credentials: "include",
-          headers: { Cookie: `sessionToken=${sessionToken}` },
-        });
-        const authData = await authResponse.json();
-
-        if (!authData.success) {
-          router.push("/"); // Перенаправление, если сессия недействительна
-          return;
-        }
-
-        // Запрос данных пользователя (включая кэшбэк)
-        const userResponse = await fetch("/api/user", {
-          credentials: "include",
-          headers: { Cookie: `sessionToken=${sessionToken}` },
-        });
-        const userDataResponse = await userResponse.json();
-
-        if (userDataResponse.success) {
-          setUserData({
-            name: userDataResponse.username || "Имя пользователя",
-            phone: userDataResponse.phone || "+998 99 123 45 67",
-            email: userDataResponse.email || "адрес почты",
-            level: userDataResponse.level || "Стартер",
-            cashback: userDataResponse.total_cashback || 0,
-          });
-        }
-      } catch (err) {
-        console.error("Ошибка при загрузке данных:", err);
-        router.push("/"); // Перенаправление в случае ошибки
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuthAndFetchData();
-  }, [router]);
-
   const handleProfilePhotoClick = () => {
     alert("Изменить фото профиля");
   };
@@ -92,7 +29,7 @@ export default function ProfilePage() {
     try {
       const response = await fetch("/api/logout", {
         method: "POST",
-        credentials: "include",
+        credentials: "include", // Отправляем cookie с запросом
         headers: { "Content-Type": "application/json" },
       });
       const data = await response.json();
@@ -109,39 +46,7 @@ export default function ProfilePage() {
     }
   };
 
-  // Обработчик для кнопки "Кэшбэк"
-  const handleCashbackClick = async () => {
-    const sessionToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("sessionToken="))
-      ?.split("=")[1];
-
-    if (!sessionToken) {
-      router.push("/");
-      return;
-    }
-
-    try {
-      // Запрос истории кэшбэка
-      const response = await fetch("/api/cashback/history", {
-        credentials: "include",
-        headers: { Cookie: `sessionToken=${sessionToken}` },
-      });
-      const data = await response.json();
-
-      if (data.success) {
-        setCashbackHistory(data.history || []);
-        setIsCashbackModalOpen(true); // Открываем модальное окно
-      } else {
-        alert("Ошибка при загрузке истории кэшбэка: " + data.message);
-      }
-    } catch (err) {
-      console.error("Ошибка при загрузке истории кэшбэка:", err);
-      alert("Ошибка при загрузке истории кэшбэка.");
-    }
-  };
-
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center">Загрузка...</div>;
+  // Опционально можно добавить проверку наличия активной сессии и перенаправление, если пользователь не авторизован.
 
   return (
     <div className="min-h-screen bg-white font-sans">
@@ -186,22 +91,19 @@ export default function ProfilePage() {
                 <span className="text-white text-sm">Изменить</span>
               </span>
             </button>
-            <span className="font-semibold text-lg text-gray-800">{userData.name}</span>
-            <span className="text-sm text-gray-500">{userData.phone}</span>
+            <span className="font-semibold text-lg text-gray-800">Имя пользователя</span>
+            <span className="text-sm text-gray-500">+998 99 1233 45 6</span>
           </div>
           <nav className="flex flex-col space-y-2 flex-1">
             {sidebarItems.map((item) => (
               <button
-                key={item.label}
-                className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => {
-                  if (item.label === "Меню") router.push("/menu");
-                  if (item.label === "Кэшбэк") handleCashbackClick(); // Открываем модальное окно
-                }}
-              >
-                <Image src={item.icon} alt={item.label} width={24} height={24} />
-                <span className="font-medium">{item.label}</span>
-              </button>
+              key={item.label}
+              className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={() => item.label === "Меню" ? router.push("/menu") : null}
+            >
+              <Image src={item.icon} alt={item.label} width={24} height={24} />
+              <span className="font-medium">{item.label}</span>
+            </button>
             ))}
           </nav>
           <button
@@ -218,18 +120,18 @@ export default function ProfilePage() {
           <div className="bg-white rounded-xl p-6 shadow-md">
             <div className="flex items-center space-x-4 mb-6">
               <div>
-                <h2 className="text-xl font-semibold text-gray-800">{userData.name}</h2>
-                <p className="text-sm text-gray-500">{userData.phone} / {userData.email}</p>
+                <h2 className="text-xl font-semibold text-gray-800">Имя пользователя</h2>
+                <p className="text-sm text-gray-500">+998 99 123 45 67 / адрес почты</p>
               </div>
             </div>
             <div className="space-y-4">
               <div className="flex items-center justify-between py-2 border-b border-gray-100">
                 <span className="text-gray-600 font-medium">Уровень пользователя:</span>
-                <span className="text-green-600 font-semibold">{userData.level}</span>
+                <span className="text-green-600 font-semibold">Стартер</span>
               </div>
               <div className="flex items-center justify-between py-2 border-b border-gray-100">
                 <span className="text-gray-600 font-medium">Кэшбэк:</span>
-                <span className="text-gray-800 font-semibold">{userData.cashback} UZS</span>
+                <span className="text-gray-800 font-semibold">5%</span>
               </div>
               <div className="flex items-center justify-between py-2 border-b border-gray-100">
                 <span className="text-gray-600 font-medium">Mit Coin:</span>
@@ -283,17 +185,16 @@ export default function ProfilePage() {
             <nav className="flex flex-col space-y-3 flex-1">
               {sidebarItems.map((item) => (
                 <button
-                  key={item.label}
-                  className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg w-full text-left transition-colors"
-                  onClick={() => {
-                    setIsMobileMenuOpen(false);
-                    if (item.label === "Меню") router.push("/menu");
-                    if (item.label === "Кэшбэк") handleCashbackClick();
-                  }}
-                >
-                  <Image src={item.icon} alt={item.label} width={24} height={24} />
-                  <span className="font-medium">{item.label}</span>
-                </button>
+                key={item.label}
+                className="flex items-center space-x-3 p-3 text-gray-700 hover:bg-gray-100 rounded-lg w-full text-left transition-colors"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (item.label === "Меню") router.push("/menu");
+                }}
+              >
+                <Image src={item.icon} alt={item.label} width={24} height={24} />
+                <span className="font-medium">{item.label}</span>
+              </button>
               ))}
             </nav>
             <button
@@ -302,71 +203,6 @@ export default function ProfilePage() {
             >
               Выход
             </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Модальное окно для истории кэшбэка */}
-      <AnimatePresence>
-        {isCashbackModalOpen && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="bg-white rounded-lg p-6 w-full max-w-md"
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">История кэшбэка</h2>
-                <button
-                  onClick={() => setIsCashbackModalOpen(false)}
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
-              </div>
-              {cashbackHistory.length === 0 ? (
-                <p className="text-gray-500">История кэшбэка пуста.</p>
-              ) : (
-                <div className="space-y-3 max-h-64 overflow-y-auto">
-                  {cashbackHistory.map((entry) => (
-                    <div
-                      key={entry.id}
-                      className="flex justify-between items-center p-3 bg-gray-100 rounded-lg"
-                    >
-                      <div>
-                        <p className="text-sm text-gray-600">
-                          Заказ #{entry.orderId}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {new Date(entry.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm text-gray-600">
-                          Сумма: {entry.orderAmount} UZS
-                        </p>
-                        <p className="text-sm font-semibold text-green-600">
-                          +{entry.cashbackAmount} UZS
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
