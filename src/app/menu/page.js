@@ -1404,6 +1404,9 @@ export default function Menu() {
         const response = await fetch("/api/create-order", {
           method: "POST",
           credentials: "include",
+          headers: {
+          "Content-Type": "application/json"
+          },
           
           body: JSON.stringify({ orderAmount: totalAmount }),
         });
