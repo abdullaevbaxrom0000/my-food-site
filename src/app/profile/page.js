@@ -101,21 +101,13 @@ export default function ProfilePage() {
 
   // Обработчик для кнопки "Кэшбэк"
   const handleCashbackClick = async () => {
-    const sessionToken = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("sessionToken="))
-      ?.split("=")[1];
-
-    if (!sessionToken) {
-      router.push("/");
-      return;
-    }
+    
 
     try {
       // Запрос истории кэшбэка
       const response = await fetch("/api/cashback/history", {
         credentials: "include",
-        headers: { Cookie: `sessionToken=${sessionToken}` },
+        
       });
       const data = await response.json();
 
