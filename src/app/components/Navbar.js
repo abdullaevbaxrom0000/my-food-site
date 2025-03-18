@@ -72,7 +72,7 @@ export default function Navbar() {
 
   const handleLogin = () => {
     setLoading(true);
-    setTimeout(() => router.push("/login"), 500);
+    router.push("/login");
   };
 
   const handleProfile = () => {
