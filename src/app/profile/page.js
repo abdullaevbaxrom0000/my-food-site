@@ -320,34 +320,35 @@ export default function ProfilePage() {
                 </button>
               </div>
               {cashbackHistory.length === 0 ? (
-                <p className="text-gray-500">История кэшбэка пуста.</p>
-              ) : (
-                <div className="space-y-3 max-h-64 overflow-y-auto">
-                  {cashbackHistory.map((entry) => (
-                    <div
-                      key={entry.id}
-                      className="flex justify-between items-center p-3 bg-gray-100 rounded-lg"
-                    >
-                      <div>
-                        <p className="text-sm text-gray-600">
-                          Заказ #{entry.orderId}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {new Date(entry.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-sm text-gray-600">
-                          Сумма: {entry.orderAmount} UZS
-                        </p>
-                        <p className="text-sm font-semibold text-green-600">
-                          +{entry.cashbackAmount} UZS
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+  <p className="text-gray-500">История кэшбэка пуста.</p>
+) : (
+  <div className="space-y-3 max-h-64 overflow-y-auto">
+    {cashbackHistory.map((entry) => (
+      <div
+        key={entry.id}
+        className="flex justify-between items-center p-3 bg-gray-100 rounded-lg"
+      >
+        <div>
+          <p className="text-sm text-gray-600">
+            Заказ #{entry.orderId}
+          </p>
+          <p className="text-sm text-gray-500">
+            {new Date(entry.createdAt).toLocaleDateString()}
+          </p>
+        </div>
+        <div className="text-right">
+          <p className="text-sm text-gray-600">
+            Сумма: {entry.orderAmount} UZS
+          </p>
+          <p className="text-sm font-semibold text-green-600">
+            +{entry.cashbackAmount} UZS
+          </p>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
             </motion.div>
           </motion.div>
         )}
