@@ -40,7 +40,7 @@ export default function ProfilePage() {
         ?.split("=")[1];
 
       if (!sessionToken) {
-        router.push("/"); // Перенаправление на страницу логина
+        router.push("/login"); // Перенаправление на страницу логина
         return;
       }
 
@@ -53,7 +53,7 @@ export default function ProfilePage() {
         const authData = await authResponse.json();
 
         if (!authData.success) {
-          router.push("/"); // Перенаправление, если сессия недействительна
+          router.push("/login"); // Перенаправление, если сессия недействительна
           return;
         }
 
@@ -75,7 +75,7 @@ export default function ProfilePage() {
         }
       } catch (err) {
         console.error("Ошибка при загрузке данных:", err);
-        router.push("/"); // Перенаправление в случае ошибки
+        router.push("/login"); // Перенаправление в случае ошибки
       } finally {
         setIsLoading(false);
       }
