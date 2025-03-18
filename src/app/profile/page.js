@@ -34,20 +34,12 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const checkAuthAndFetchData = async () => {
-      const sessionToken = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("sessionToken="))
-        ?.split("=")[1];
-  
-      if (!sessionToken) {
-        router.push("/login"); // Перенаправляем на логин
-        return;
-      }
+      
   
       try {
         const authResponse = await fetch("/api/check-auth", {
           credentials: "include",
-          headers: { Cookie: `sessionToken=${sessionToken}` },
+          
         });
         const authData = await authResponse.json();
   
@@ -58,7 +50,7 @@ export default function ProfilePage() {
   
         const userResponse = await fetch("/api/user", {
           credentials: "include",
-          headers: { Cookie: `sessionToken=${sessionToken}` },
+          
         });
         const userDataResponse = await userResponse.json();
   
