@@ -131,7 +131,7 @@ export default function ProfilePage() {
       <div className="md:hidden flex items-center justify-between p-4 bg-white shadow-sm border-b border-gray-200">
         <button onClick={handleProfilePhotoClick} className="flex items-center">
           <Image
-            src={userData.avatar_url || "/profile.svg"}
+            src={userData.avatar_url ? userData.avatar_url : "/profile.svg"}
             alt="Фото профиля"
             width={40}
             height={40}
@@ -158,7 +158,7 @@ export default function ProfilePage() {
           <div className="flex flex-col items-center mb-8">
             <button onClick={handleProfilePhotoClick} className="mb-3 relative group">
               <Image
-                src={userData.avatar_url || "/profile.svg"}
+                src={userData.avatar_url ? userData.avatar_url : "/profile.svg"}
                 alt="Фото профиля"
                 width={80}
                 height={80}
@@ -241,7 +241,7 @@ export default function ProfilePage() {
             <div className="flex justify-between items-center border-b border-gray-200 pb-4 mb-4">
               <button onClick={handleProfilePhotoClick} className="flex items-center">
                 <Image
-                  src={userData.avatar_url || "/profile.svg"}
+                  src={userData.avatar_url ? userData.avatar_url : "/profile.svg"}
                   alt="Фото профиля"
                   width={40}
                   height={40}
