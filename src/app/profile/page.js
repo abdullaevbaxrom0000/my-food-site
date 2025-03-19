@@ -296,17 +296,17 @@ export default function ProfilePage() {
         {isCashbackModalOpen && (
           <motion.div
           className="fixed inset-0 bg-white z-50 flex flex-col md:bg-black md:bg-opacity-50 md:items-center md:justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  exit={{ opacity: 0 }}
         >
           <motion.div
-            className="w-full h-full p-4 md:bg-white md:rounded-lg md:p-6 md:w-full md:max-w-md relative overflow-y-auto"
+             className="w-full h-full p-4 overflow-y-auto md:bg-white md:rounded-lg md:p-6 md:w-full md:max-w-md relative"
             initial={{ scale: 1 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.9 }}
             >
-              <div className="flex justify-between items-center mb-4 sticky top-0 bg-white p-4 border-b border-gray-200">
+              <div className="flex justify-between items-center mb-4 sticky top-0 bg-white p-4 border-b border-gray-200 z-10">
   <h2 className="text-xl font-semibold">История кэшбэка</h2>
   <button
     onClick={() => setIsCashbackModalOpen(false)}
@@ -318,10 +318,11 @@ export default function ProfilePage() {
   </button>
 </div>
 
+
               {cashbackHistory.length === 0 ? (
   <p className="text-gray-500">История кэшбэка пуста.</p>
 ) : (
-  <div className="space-y-3 max-h-64 overflow-y-auto">
+  <div className="space-y-3 pb-10">
     {cashbackHistory.map((entry) => (
       <div
         key={entry.id}
