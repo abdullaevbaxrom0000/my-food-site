@@ -471,11 +471,23 @@ export default function Menu() {
     useEffect(() => {
       const savedOrder = localStorage.getItem("savedOrder");
       if (savedOrder) {
-        setOrderItems(JSON.parse(savedOrder)); // Восстанавливаем корзину
-        localStorage.removeItem("savedOrder"); // Очищаем после восстановления
+        setOrderItems(JSON.parse(savedOrder));
+        localStorage.removeItem("savedOrder");
+      }
+    
+      const savedModalState = localStorage.getItem("modalState");
+      if (savedModalState) {
+        const { isOrderSummaryOpen, isMenuModalOpen } = JSON.parse(savedModalState);
+        if (isOrderSummaryOpen) setIsOrderSummaryOpen(true);
+        if (isMenuModalOpen) setIsMenuModalOpen(true);
+        localStorage.removeItem("modalState");
       }
     }, []);
     
+    
+
+
+
 
 
   // Модальное окно (первое) — детали одной карточки:
@@ -1438,6 +1450,13 @@ export default function Menu() {
         
         if (response.status === 401 || data.message === "Не авторизован") {
           localStorage.setItem("savedOrder", JSON.stringify(orderItems)); // Сохраняем корзину
+
+          localStorage.setItem("modalState", JSON.stringify({
+            isOrderSummaryOpen,
+            isMenuModalOpen,
+          }));
+          
+
           router.push("/login?redirect=menu"); // Перенаправляем на логин
           return;
         }
