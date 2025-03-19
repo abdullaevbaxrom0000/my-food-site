@@ -1394,20 +1394,19 @@ export default function Menu() {
                 <button
   className="w-1/2 max-w-xs py-3 bg-[#28a745] text-white font-semibold rounded-full hover:bg-opacity-80 transition-all ml-2"
   onClick={async () => {
-    if (socketRef.current && orderItems.length > 0) {
-      // Рассчитываем общую сумму заказа
+    if (orderItems.length > 0) {
+      // 1. Рассчитываем сумму и название заказа
       const totalAmount = orderItems.reduce(
         (sum, item) =>
           sum + parseInt(item.price.replace(/\D/g, "")) * item.quantity,
         0
       );
-
-      // Формируем название заказа из имен выбранных блюд
+  
       const itemsNames = orderItems.map(item => item.name);
       const orderName = itemsNames.join(" + ");
-      console.log("orderName:", orderName); // Добавьте этот лог, чтобы проверить значение
-
+  
       try {
+        // 2. Отправляем запрос на создание заказа и начисление кешбэка
         const response = await fetch("/api/create-order", {
           method: "POST",
           credentials: "include",
@@ -1420,20 +1419,26 @@ export default function Menu() {
           }),
         });
         const data = await response.json();
-
+  
         if (data.success) {
+          // 3. После успешной оплаты — отправляем донаты через сокет
+          const donationItems = orderItems.filter(item => item.fromMenu === true);
+          if (donationItems.length > 0 && socketRef.current) {
+            socketRef.current.emit('paymentCompleted', donationItems);
+            console.log("Донаты отправлены:", donationItems);
+          }
+  
+          // 4. Сообщение об успехе
           alert(
             `Ваш заказ на сумму ${totalAmount.toLocaleString()} сум оплачен. Начислен кэшбэк: ${data.cashbackAmount} UZS`
           );
-
-          // Очищаем корзину и закрываем модальное окно "Ваш заказ"
+  
+          // 5. Очищаем корзину и закрываем окно
           setOrderItems([]);
           setIsOrderSummaryOpen(false);
-
-          // Обновляем данные профиля, если нужно
-          const userResponse = await fetch("/api/user", {
-            credentials: "include",
-          });
+  
+          // 6. Можно обновить профиль (если нужно, необязательно)
+          const userResponse = await fetch("/api/user", { credentials: "include" });
           const userData = await userResponse.json();
           if (userData.success) {
             console.log("Обновлённый кэшбэк:", userData.total_cashback);
@@ -1446,10 +1451,11 @@ export default function Menu() {
         alert("Ошибка при оплате. Проверьте консоль для деталей.");
       }
     } else {
-      console.log("Сокет не инициализирован или корзина пуста");
+      console.log("Корзина пуста");
     }
   }}
   disabled={orderItems.length === 0}
+  
 >
   Оплатить
 </button>
