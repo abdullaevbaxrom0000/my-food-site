@@ -136,9 +136,9 @@ export default function ProfilePage() {
           <Image
             src={userData.avatar_url ? userData.avatar_url : "/profile.svg"}
             alt="Фото профиля"
-            width={40}
-            height={40}
-            className="rounded-none"
+            width={60}
+            height={60}
+            className="rounded-full"
           />
         </button>
         <button
