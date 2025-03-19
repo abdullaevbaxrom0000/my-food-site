@@ -330,8 +330,13 @@ export default function ProfilePage() {
       >
         <div>
           <p className="text-sm text-gray-600">
-            Заказ #{entry.orderName}
+            Заказ #{entry.orderId}
           </p>
+
+          <p className="text-sm text-gray-600">
+            {entry.orderName}
+          </p>
+
           <p className="text-sm text-gray-500">
             {new Date(entry.createdAt).toLocaleDateString()}
           </p>

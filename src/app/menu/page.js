@@ -1403,6 +1403,7 @@ export default function Menu() {
       // Формируем название заказа из имен выбранных блюд
       const itemsNames = orderItems.map(item => item.name);
       const orderName = itemsNames.join(" + ");
+      console.log("orderName:", orderName); // Добавьте этот лог, чтобы проверить значение
 
       try {
         const response = await fetch("/api/create-order", {
