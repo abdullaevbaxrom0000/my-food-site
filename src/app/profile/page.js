@@ -328,27 +328,28 @@ export default function ProfilePage() {
         key={entry.id}
         className="flex justify-between items-center p-3 bg-gray-100 rounded-lg"
       >
-        <div>
-          <p className="text-sm text-gray-600">
-            Заказ #{entry.orderId}
-          </p>
+       <div>
+  <p className="text-sm text-gray-600">
+    Заказ #{entry.id}
+  </p>
+  {entry.orderName &&
+    entry.orderName.split(" + ").map((name, index) => (
+      <p key={index} className="text-sm text-gray-600">{name}</p>
+    ))
+  }
+  <p className="text-sm text-gray-500">
+    {new Date(entry.createdAt).toLocaleDateString()}
+  </p>
+</div>
+<div className="text-right">
+  <p className="text-sm text-gray-600">
+    Сумма: {entry.orderAmount} UZS
+  </p>
+  <p className="text-sm font-semibold text-green-600">
+    +{entry.cashbackAmount} UZS
+  </p>
+</div>
 
-          <p className="text-sm text-gray-600">
-            {entry.orderName}
-          </p>
-
-          <p className="text-sm text-gray-500">
-            {new Date(entry.createdAt).toLocaleDateString()}
-          </p>
-        </div>
-        <div className="text-right">
-          <p className="text-sm text-gray-600">
-            Сумма: {entry.orderAmount} UZS
-          </p>
-          <p className="text-sm font-semibold text-green-600">
-            +{entry.cashbackAmount} UZS
-          </p>
-        </div>
       </div>
     ))}
   </div>
