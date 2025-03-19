@@ -536,6 +536,7 @@ export default function Menu() {
       );
       if (existingItemIndex !== -1) {
         updatedOrder[existingItemIndex].quantity += 1;
+
       } else {
         updatedOrder.push({ ...selectedItem, quantity: 1, fromMenu: false });
       }
@@ -575,6 +576,7 @@ export default function Menu() {
         if (existingItemIndex !== -1) {
           // Если элемент уже есть, увеличиваем количество
           updatedOrder[existingItemIndex].quantity += newItem.quantity || 1;
+          updatedOrder[existingItemIndex].fromMenu = true; // <<< Добавляем обязательно!
         } else {
           // Если элемента нет, добавляем новый с fromMenu: true
           updatedOrder.push({ ...newItem, quantity: newItem.quantity || 1 });
