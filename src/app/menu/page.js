@@ -445,6 +445,23 @@ export default function Menu() {
         console.log('Подключено к серверу');
       });
     
+      // Получаем донаты сразу при загрузке страницы
+      fetch("https://api.mit-foodcompany.uz/api/get-donations")
+      .then((res) => res.json())
+      .then((data) => {
+      console.log("Донаты с API:", data);
+      setDonationStories([
+      { id: 1, img: "heart.svg", count: `x${data[1] || 0}` },
+      { id: 2, img: "spizza.svg", count: `x${data[2] || 0}` },
+      { id: 3, img: "bottle.svg", count: `x${data[3] || 0}` },
+      { id: 4, img: "gam.svg", count: `x${data[4] || 0}` },
+  ]);
+})
+.catch((err) => {
+  console.error("Ошибка получения донатов:", err);
+});
+
+
       socket.on('updateDonations', (data) => {
         console.log('Получены донаты:', data);
         setDonationStories([
