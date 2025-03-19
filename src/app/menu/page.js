@@ -1387,49 +1387,52 @@ export default function Menu() {
 
                 
 
+                
+
                 <button
   className="w-1/2 max-w-xs py-3 bg-[#28a745] text-white font-semibold rounded-full hover:bg-opacity-80 transition-all ml-2"
   onClick={async () => {
     if (socketRef.current && orderItems.length > 0) {
       // Рассчитываем общую сумму заказа
       const totalAmount = orderItems.reduce(
-        (sum, item) => sum + parseInt(item.price.replace(/\D/g, "")) * item.quantity,
+        (sum, item) =>
+          sum + parseInt(item.price.replace(/\D/g, "")) * item.quantity,
         0
       );
 
-      // Отправляем заказ на сервер
-      
+      // Формируем название заказа из имен выбранных блюд
+      const itemsNames = orderItems.map(item => item.name);
+      const orderName = itemsNames.join(" + ");
 
       try {
         const response = await fetch("/api/create-order", {
           method: "POST",
           credentials: "include",
           headers: {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
           },
-          
-          body: JSON.stringify({ orderAmount: totalAmount }),
+          body: JSON.stringify({
+            orderAmount: totalAmount,
+            orderName: orderName
+          }),
         });
         const data = await response.json();
 
         if (data.success) {
-          // Уведомление об успешной оплате и начислении кэшбэка
           alert(
             `Ваш заказ на сумму ${totalAmount.toLocaleString()} сум оплачен. Начислен кэшбэк: ${data.cashbackAmount} UZS`
           );
 
-          // Очищаем корзину
+          // Очищаем корзину и закрываем модальное окно "Ваш заказ"
           setOrderItems([]);
           setIsOrderSummaryOpen(false);
 
-          // Обновляем данные профиля (например, кэшбэк)
+          // Обновляем данные профиля, если нужно
           const userResponse = await fetch("/api/user", {
             credentials: "include",
-            
           });
           const userData = await userResponse.json();
           if (userData.success) {
-            // Здесь можно обновить состояние userData, если нужно отобразить кэшбэк на этой странице
             console.log("Обновлённый кэшбэк:", userData.total_cashback);
           }
         } else {
@@ -1447,6 +1450,7 @@ export default function Menu() {
 >
   Оплатить
 </button>
+
               </div>
 
               <div className="mt-4 flex justify-center">
