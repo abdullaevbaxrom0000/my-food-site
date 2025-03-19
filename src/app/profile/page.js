@@ -136,8 +136,8 @@ export default function ProfilePage() {
           <Image
             src={userData.avatar_url ? userData.avatar_url : "/profile.svg"}
             alt="Фото профиля"
-            width={60}
-            height={60}
+            width={70}
+            height={70}
             className="rounded-full"
           />
         </button>
@@ -165,7 +165,7 @@ export default function ProfilePage() {
                 alt="Фото профиля"
                 width={80}
                 height={80}
-                className="transition-transform group-hover:scale-105"
+                className="transition-transform group-hover:scale-105 rounded-full"
               />
               <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                 <span className="text-white text-sm">Изменить</span>
