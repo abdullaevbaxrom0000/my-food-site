@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
+import { useRouter } from "next/navigation"; // Импортируем роутер
+
+
 // Компонент CategoryNav
 function CategoryNav({ categories }) {
   const [visible, setVisible] = useState(false);
@@ -79,6 +82,7 @@ function CategoryNav({ categories }) {
     }
   }, [activeCategory]);
 
+  
   return (
     <motion.div
       ref={navRef}
@@ -118,6 +122,8 @@ function CategoryNav({ categories }) {
 }
 
 export default function Menu() {
+  const router = useRouter(); // Используем роутер
+
   // Основной стейт для корзины:
   const [orderItems, setOrderItems] = useState([]);
   const [isOrderSummaryOpen, setIsOrderSummaryOpen] = useState(false);
@@ -461,6 +467,16 @@ export default function Menu() {
         socket.disconnect();
       };
     }, []);
+
+    useEffect(() => {
+      const savedOrder = localStorage.getItem("savedOrder");
+      if (savedOrder) {
+        setOrderItems(JSON.parse(savedOrder)); // Восстанавливаем корзину
+        localStorage.removeItem("savedOrder"); // Очищаем после восстановления
+      }
+    }, []);
+    
+
 
   // Модальное окно (первое) — детали одной карточки:
   const [selectedItem, setSelectedItem] = useState(null);
@@ -1419,7 +1435,15 @@ export default function Menu() {
           }),
         });
         const data = await response.json();
-  
+        
+        if (response.status === 401 || data.message === "Не авторизован") {
+          localStorage.setItem("savedOrder", JSON.stringify(orderItems)); // Сохраняем корзину
+          router.push("/login?redirect=menu"); // Перенаправляем на логин
+          return;
+        }
+        
+
+
         if (data.success) {
           // 3. После успешной оплаты — отправляем донаты через сокет
           const donationItems = orderItems.filter(item => item.fromMenu === true);

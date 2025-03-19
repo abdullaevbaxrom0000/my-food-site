@@ -21,13 +21,17 @@ export default function LoginPage() {
         .then((response) => response.json())
         .then((data) => {
           if (data.success) {
-            console.log("Проверяем куки:", document.cookie); // Добавьте эту строку
+            console.log("Проверяем куки:", document.cookie);
             console.log("Авторизация успешна:", data);
-            router.push("/profile");
-          } else {
-            console.error("Ошибка авторизации:", data.message);
-            alert("Ошибка авторизации: " + data.message);
+            const searchParams = new URLSearchParams(window.location.search);
+            const redirect = searchParams.get("redirect");
+            if (redirect) {
+              router.push(`/${redirect}`);
+            } else {
+              router.push("/profile");
+            }
           }
+        
         })
         .catch((error) => {
           console.error("Ошибка при авторизации:", error);
@@ -109,14 +113,18 @@ const handleGoogleSignIn = (response) => {
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
-        console.log("Проверяем куки:", document.cookie); // Добавьте эту строку
+        console.log("Проверяем куки:", document.cookie);
         console.log("Google авторизация успешна:", data);
-        router.push("/profile");
-      } else {
-        console.error("Ошибка Google авторизации:", data.message);
-        alert("Ошибка авторизации: " + data.message);
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirect = searchParams.get("redirect");
+        if (redirect) {
+          router.push(`/${redirect}`);
+        } else {
+          router.push("/profile");
+        }
       }
-    })
+        })
+
     .catch((error) => {
       console.error("Ошибка при Google авторизации:", error);
       alert("Ошибка при авторизации через Google.");
