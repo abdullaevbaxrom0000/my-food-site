@@ -53,6 +53,8 @@ export default function ProfilePage() {
           
         });
         const userDataResponse = await userResponse.json();
+
+        console.log("Данные пользователя из API:", userDataResponse);
   
         if (userDataResponse.success) {
           setUserData({
@@ -61,6 +63,7 @@ export default function ProfilePage() {
             email: userDataResponse.email || "адрес почты",
             level: userDataResponse.level || "Стартер",
             cashback: userDataResponse.total_cashback || 0,
+            avatar_url: userDataResponse.avatar_url || null,
           });
         }
       } catch (err) {
