@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
+import PingComponent from "./components/PingComponent";
+
 
 // Подключаем шрифты
 const geistSans = Geist({
@@ -78,6 +80,7 @@ export default function RootLayout({ children }) {
           antialiased
         `}
       >
+         <PingComponent />
         {children}
       </body>
     </html>
