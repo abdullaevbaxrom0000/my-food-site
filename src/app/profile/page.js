@@ -295,10 +295,11 @@ export default function ProfilePage() {
       <AnimatePresence>
         {isCashbackModalOpen && (
           <motion.div
-          className="fixed inset-0 bg-white z-50 p-4 md:p-6 overflow-y-auto h-screen w-screen"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-white w-full h-full"
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "100%" }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
         >
           <motion.div
              className="w-full h-full p-4 overflow-y-auto md:bg-white md:rounded-lg md:p-6 md:w-full md:max-w-md relative"
