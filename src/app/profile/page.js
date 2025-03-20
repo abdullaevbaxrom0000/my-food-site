@@ -307,7 +307,7 @@ export default function ProfilePage() {
             exit={{ scale: 0.9 }}
           >
         
-        <div className="flex justify-between items-center mb-4 p-4 border-b border-gray-200">
+        <div className="sticky top-0 bg-white z-10 p-4 border-b border-gray-200 flex justify-between items-center">
   <h2 className="text-xl font-semibold">История кэшбэка</h2>
   <button
     onClick={() => setIsCashbackModalOpen(false)}
@@ -318,6 +318,7 @@ export default function ProfilePage() {
     </svg>
   </button>
 </div>
+
 
 
 
