@@ -199,7 +199,7 @@ export default function ProfilePage() {
 
         {/* Основной контент */}
         <main className="flex-1 p-6 md:p-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-6 text-gray-800">Профиль</h1>
+          
           <div className="bg-white rounded-xl p-6 shadow-md">
             <div className="flex items-center space-x-4 mb-6">
               <div>
