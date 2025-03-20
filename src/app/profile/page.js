@@ -295,7 +295,7 @@ export default function ProfilePage() {
       <AnimatePresence>
         {isCashbackModalOpen && (
           <motion.div
-          className="fixed inset-0 bg-white z-50 flex flex-col md:bg-black md:bg-opacity-50 "
+          className="fixed inset-0 bg-white z-50 p-4 md:p-6 overflow-y-auto h-screen w-screen"
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   exit={{ opacity: 0 }}
