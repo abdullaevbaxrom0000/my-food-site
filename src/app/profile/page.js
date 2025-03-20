@@ -295,29 +295,30 @@ export default function ProfilePage() {
       <AnimatePresence>
         {isCashbackModalOpen && (
           <motion.div
-          className="fixed inset-0 bg-white z-50 flex flex-col pt-safe-top md:bg-black md:bg-opacity-50 md:items-center md:justify-center"
+          className="fixed inset-0 bg-white z-50 flex flex-col"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            className="flex flex-col w-full h-full overflow-y-auto md:bg-white md:rounded-lg md:p-6 md:w-full md:max-w-md relative"
+            className="flex flex-col w-full h-full overflow-y-auto bg-white relative"
             initial={{ scale: 1 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.9 }}
           >
         
-              <div className="flex justify-between items-center mb-4 sticky top-0 bg-white p-4 border-b border-gray-200 z-10">
+        <div className="flex justify-between items-center mb-4 p-4 border-b border-gray-200">
   <h2 className="text-xl font-semibold">История кэшбэка</h2>
   <button
     onClick={() => setIsCashbackModalOpen(false)}
-    className="text-gray-600 hover:text-gray-800"
+    className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
   >
     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
     </svg>
   </button>
 </div>
+
 
 
               {cashbackHistory.length === 0 ? (
