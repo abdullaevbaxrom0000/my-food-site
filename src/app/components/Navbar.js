@@ -146,11 +146,15 @@ export default function Navbar() {
         <div className="relative z-10 flex items-center justify-between w-full">
           {/* Мобильный логотип вместо текста "Mit" */}
           <div
-            className="w-[79px] h-[75px] flex justify-center items-center sm:hidden"
-            style={{ zIndex: 20 }}
-          >
-            <Image src="/logo1.svg" alt="Логотип" width={60} height={60} />
-          </div>
+  className="flex items-end space-x-2"
+  style={{ zIndex: 20 }}
+>
+  <Image src="/logo1.svg" alt="Логотип" width={50} height={50} />
+  <div className="text-[22px] font-['Roboto'] font-medium leading-none">
+    Mit
+  </div>
+</div>
+
 
           <div
   className="flex items-center sm:hidden space-x-2"
@@ -166,16 +170,7 @@ export default function Navbar() {
 
 
           {/* Логотип и текст "Концепция" для десктопа */}
-          <div className="hidden sm:flex items-center absolute left-1/2 transform -translate-x-1/2 sm:static sm:transform-none">
-            <Image
-              src="/logo2bar.svg"
-              alt="Логотип"
-              width={50}
-              height={50}
-              className="mr-4"
-            />
-            <div className="text-[12px] sm:text-[40px] font-semibold font-['Roboto'] tracking-wider"></div>
-          </div>
+          
 
           {/* Кнопка "гамбургер" для мобильных */}
           <button
