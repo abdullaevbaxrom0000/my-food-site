@@ -98,7 +98,7 @@ export default function Home() {
                 transition={{ duration: 1.5, ease: "easeOut" }}
                 className="relative top-1/4 text-[80px] sm:text-[100px] font-bold text-gray-800 ml-4"
               >
-                Mit
+                
               </motion.div>
             )}
           </AnimatePresence>
