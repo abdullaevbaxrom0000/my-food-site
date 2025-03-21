@@ -78,12 +78,13 @@ export default function RootLayout({ children }) {
           ${geistMono.variable} 
           ${roboto.variable} 
           antialiased
-          bg-[#0066ff]  /* Синий фон */
+          bg-[#FFA424]  /* Фон по умолчанию - синий */
+          lg:bg-white    /* На десктопе фон белый */
         `}
       >
         <PingComponent />
 
-        <div className="max-w-[1200px] mx-auto bg-white min-h-screen rounded-lg p-4">
+        <div className="bg-white max-w-full lg:max-w-none lg:w-full mx-auto min-h-screen p-4 lg:p-0 lg:rounded-none rounded-lg">
           {children}
         </div>
 
