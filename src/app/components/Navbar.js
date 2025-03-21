@@ -156,17 +156,6 @@ export default function Navbar() {
 </div>
 
 
-          <div
-  className="flex items-center sm:hidden space-x-2"
-  style={{ zIndex: 20 }}
->
-  <div className="w-[60px] h-[60px] flex justify-center items-center">
-    <Image src="/logo1.svg" alt="Логотип" width={50} height={50} />
-  </div>
-  <div className="text-[24px] font-semibold font-['Roboto']">
-    Mit
-  </div>
-</div>
 
 
           {/* Логотип и текст "Концепция" для десктопа */}
