@@ -74,22 +74,25 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={`
+          flex flex-col min-h-screen
           ${geistSans.variable} 
           ${geistMono.variable} 
           ${roboto.variable} 
           antialiased
-          bg-[#FFA424]  /* Фон по умолчанию - синий */
-          lg:bg-white    /* На десктопе фон белый */
+          bg-[#FFA424]  
+          lg:bg-white
         `}
       >
         <PingComponent />
 
-        <div className="bg-white max-w-full lg:max-w-none lg:w-full mx-auto min-h-screen p-4 lg:p-0 lg:rounded-none rounded-lg">
+        {/* Контент */}
+        <main className="flex-grow bg-white max-w-full lg:max-w-none lg:w-full mx-auto p-4 lg:p-0 lg:rounded-none rounded-lg">
           {children}
-        </div>
+        </main>
 
+        {/* Футер (если требуется на конкретной странице - через условие) */}
+        {/* <Footer /> */}
       </body>
     </html>
   );
 }
-
