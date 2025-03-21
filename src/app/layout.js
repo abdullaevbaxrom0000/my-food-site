@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 import PingComponent from "./components/PingComponent";
-
+import Footer from "./components/Footer"; // Импорт Footer если у вас он в components
 
 // Подключаем шрифты
 const geistSans = Geist({
@@ -20,17 +20,14 @@ const roboto = Roboto({
   weight: ["400", "500", "700"],
 });
 
-// Функция для генерации метаданных на основе текущего маршрута
+// Метаданные без изменений
 export function generateMetadata({ params }) {
   const path = params?.slug || "";
-
-  // Дефолтные значения (если страница не имеет особых настроек)
   let title = "Mit - Your favorite fast food service!";
   let description = "Visit our web site https://www.mit-foodcompany.uz to enjoy with delicious food and to share with love by donation with Mit!";
   let url = `https://www.mit-foodcompany.uz/${path}`;
   let image = "https://www.mit-foodcompany.uz/og-image-new.jpg";
 
-  // Уникальные превью для разных страниц
   if (path.includes("menu")) {
     title = "Меню | Food Company";
     description = "Ознакомьтесь с нашим вкусным меню – бургеры, роллы, напитки и многое другое!";
@@ -69,27 +66,32 @@ export function generateMetadata({ params }) {
   };
 }
 
+// ✅ Главное исправление:
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
         className={`
+          flex flex-col min-h-screen 
           ${geistSans.variable} 
           ${geistMono.variable} 
           ${roboto.variable} 
           antialiased
-          bg-[#FFA424]  /* Фон по умолчанию - синий */
-          lg:bg-white    /* На десктопе фон белый */
+          bg-[#FFA424]  
+          lg:bg-white 
         `}
+        style={{ paddingBottom: "env(safe-area-inset-bottom)" }} // Для iPhone
       >
         <PingComponent />
 
-        <div className="bg-white max-w-full lg:max-w-none lg:w-full mx-auto min-h-screen p-4 lg:p-0 lg:rounded-none rounded-lg">
+        {/* Контент */}
+        <main className="flex-grow bg-white w-full mx-auto p-4 lg:p-0">
           {children}
-        </div>
+        </main>
 
+        {/* Футер */}
+        <Footer />
       </body>
     </html>
   );
 }
-
