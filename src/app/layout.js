@@ -79,12 +79,12 @@ export default function RootLayout({ children }) {
           ${roboto.variable} 
           antialiased
           bg-[#FFA424]  /* Фон по умолчанию - синий */
-          lg:bg-white    /* На десктопе фон белый */
+          
         `}
       >
         <PingComponent />
 
-        <div className="bg-white max-w-full lg:max-w-none lg:w-full mx-auto min-h-screen p-4 lg:p-0 lg:rounded-none rounded-lg">
+        <div className="bg-white w-full max-w-full mx-auto min-h-min p-4 lg:p-0 lg:rounded-none rounded-lg">
           {children}
         </div>
 
