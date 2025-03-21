@@ -84,7 +84,3 @@ body {
 }
 
 
-body {
-  margin: 0;
-  padding-bottom: env(safe-area-inset-bottom);
-}
