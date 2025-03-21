@@ -72,23 +72,19 @@ export function generateMetadata({ params }) {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`
-          ${geistSans.variable} 
-          ${geistMono.variable} 
-          ${roboto.variable} 
-          antialiased
-          bg-[#FFA424]  /* Фон по умолчанию - синий */
-          
-        `}
-      >
-        <PingComponent />
+      <body className="
+  bg-[#FFA424]
+  antialiased
+  ${geistSans.variable} 
+  ${geistMono.variable} 
+  ${roboto.variable} 
+">
+  <PingComponent />
+  <div className="bg-white max-w-full lg:max-w-none lg:w-full mx-auto p-4 lg:p-0 lg:rounded-none rounded-lg">
+    {children}
+  </div>
+</body>
 
-        <div className="bg-white w-full max-w-full mx-auto min-h-min p-4 lg:p-0 lg:rounded-none rounded-lg">
-          {children}
-        </div>
-
-      </body>
     </html>
   );
 }
