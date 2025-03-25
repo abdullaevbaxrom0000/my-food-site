@@ -14,7 +14,8 @@ export default function SitePage() {
     try {
       const res = await fetch("https://api.mit-foodcompany.uz/api/menu");
       const data = await res.json();
-      setMenuItems(data);
+      setMenuData(data.categories); // ✅ только массив категорий
+
     } catch (error) {
       console.error("Ошибка при загрузке меню:", error);
     }
