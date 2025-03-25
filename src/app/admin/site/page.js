@@ -1,11 +1,30 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 
 export default function SitePage() {
   const [activeTab, setActiveTab] = useState("menu");
   const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [menuItems, setMenuItems] = useState([]);
+
   const [isAddCategoryModalOpen, setAddCategoryModalOpen] = useState(false); // <-- ДОБАВЛЯЕМ ЭТО  
+
+
+  const fetchMenu = async () => {
+    try {
+      const res = await fetch("https://api.mit-foodcompany.uz/api/menu");
+      const data = await res.json();
+      setMenuItems(data);
+    } catch (error) {
+      console.error("Ошибка при загрузке меню:", error);
+    }
+  };
+
+  
+  useEffect(() => {
+    fetchMenu();
+  }, []);
+  
 
 
   const menuData = [
@@ -102,7 +121,8 @@ export default function SitePage() {
                 </tr>
               </thead>
               <tbody>
-                {menuData.map((dish) => (
+              {menuItems.map((dish) => (
+
                   <tr key={dish.id} className="border-b">
                     <td className="px-4 py-2">
                       <img src={dish.image} alt={dish.name} className="w-12 h-12 object-cover rounded" />
