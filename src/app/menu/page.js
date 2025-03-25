@@ -60,7 +60,7 @@ function CategoryNav({ categories }) {
     };
 
 
-    const [categories, setCategories] = useState([]);
+    
 
 
 
@@ -129,6 +129,29 @@ function CategoryNav({ categories }) {
 export default function Menu() {
   const router = useRouter(); // Используем роутер
 
+  const [categories, setCategories] = useState([]);
+
+
+  useEffect(() => {
+    async function loadMenu() {
+      try {
+        const res = await fetch("https://api.mit-foodcompany.uz/api/menu");
+        const data = await res.json();
+        if (data.success) {
+          setCategories(data.categories);
+        } else {
+          console.error("Ошибка при получении меню:", data.message);
+        }
+      } catch (err) {
+        console.error("Ошибка запроса /api/menu:", err);
+      }
+    }
+  
+    loadMenu();
+  }, []);
+  
+
+
   // Основной стейт для корзины:
   const [orderItems, setOrderItems] = useState([]);
   const [isOrderSummaryOpen, setIsOrderSummaryOpen] = useState(false);
@@ -186,23 +209,6 @@ export default function Menu() {
 
 
 
-useEffect(() => {
-  async function loadMenu() {
-    try {
-      const res = await fetch("https://api.mit-foodcompany.uz/api/menu");
-      const data = await res.json();
-      if (data.success) {
-        setCategories(data.categories);
-      } else {
-        console.error("Ошибка при получении меню:", data.message);
-      }
-    } catch (err) {
-      console.error("Ошибка запроса /api/menu:", err);
-    }
-  }
-
-  loadMenu();
-}, []);
 
 
       socket.on('updateDonations', (data) => {
