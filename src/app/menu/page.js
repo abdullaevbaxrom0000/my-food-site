@@ -59,6 +59,11 @@ function CategoryNav({ categories }) {
       determineActiveCategory();
     };
 
+
+    const [categories, setCategories] = useState([]);
+
+
+
     window.addEventListener("scroll", handleScroll);
     handleScroll();
 
@@ -131,293 +136,9 @@ export default function Menu() {
   const [isStoriesOpen, setIsStoriesOpen] = useState(false);
   const [selectedStory, setSelectedStory] = useState(null);
 
-  // Список категорий:
-  const categories = [
-    {
-      title: 'Бургеры "Кат"',
-      id: "burgers",
-      items: [
-        {
-          name: "Кат Бургер",
-          price: "30 000 сум",
-          img: "/b1.svg",
-          description: "Сочный бургер с котлетой и свежими овощами.",
-        },
-        {
-          name: "Спайси Кат",
-          price: "28 000 сум",
-          img: "/load.svg",
-          description: "Острый бургер с пикантным соусом и специями.",
-        },
-        {
-          name: "Двойной Кат",
-          price: "30 500 сум",
-          img: "/load.svg",
-          description:
-            "Бургер с двойной котлетой и сыром для любителей сытной еды.",
-        },
-        {
-          name: "Гриль Кат",
-          price: "34 000 сум",
-          img: "/load.svg",
-          description: "Бургер с копчёным вкусом и особым соусом.",
-        },
-        {
-          name: "Сырный Кат",
-          price: "31 500 сум",
-          img: "/load.svg",
-          description: "Нежный бургер с расплавленным сыром и свежими овощами.",
-        },
-        {
-          name: "Зелёный Кат",
-          price: "30 200 сум",
-          img: "/load.svg",
-          description: "Лёгкий бургер с зеленью и лёгким соусом.",
-        },
-      ],
-    },
-    {
-      title: "Стики",
-      id: "sticks",
-      items: [
-        {
-          name: "Стик",
-          price: "25 000 сум",
-          img: "/Стик.svg",
-          description: "Хрустящий стик с сырной начинкой.",
-        },
-        {
-          name: "Чиз Стик",
-          price: "35 000 сум",
-          img: "/Чиз Стик.svg",
-          description: "Сытный стик с двойной сырной начинкой.",
-        },
-        {
-          name: "Пряный Стик",
-          price: "28 500 сум",
-          img: "/burger5.svg",
-          description: "Стик с острыми специями и хрустящей корочкой.",
-        },
-        {
-          name: "Делюкс Стик",
-          price: "36 000 сум",
-          img: "/burger5.svg",
-          description: "Улучшенный стик с начинкой из сыра и овощей.",
-        },
-      ],
-    },
-    {
-      title: "Комбо",
-      id: "combos",
-      items: [
-        {
-          name: "Комбо-Full",
-          price: "25 000 сум",
-          img: "/load.svg",
-          description: "Хрустящий стик с сырной начинкой.",
-        },
-        {
-          name: "Комбо-45",
-          price: "35 000 сум",
-          img: "/load.svg",
-          description: "Сытный стик с двойной сырной начинкой.",
-        },
-        {
-          name: "Стик Комбо",
-          price: "28 500 сум",
-          img: "/load.svg",
-          description: "Стик с острыми специями и хрустящей корочкой.",
-        },
-        {
-          name: "Комбо де-фри",
-          price: "36 000 сум",
-          img: "/combodefri.svg",
-          description: "Улучшенный стик с начинкой из сыра и овощей.",
-        },
-      ],
-    },
-    {
-      title: "Пиццы",
-      id: "pizzas",
-      items: [
-        {
-          name: "Пицца",
-          price: "27 000 сум",
-          img: "/pizza.svg",
-          description: "Классическая пицца с томатами и сыром.",
-        },
-        {
-          name: "Кусковая Пицца",
-          price: "29 000 сум",
-          img: "/ppizza.svg",
-          description: "Порционная пицца с мясом и сыром.",
-        },
-        {
-          name: "Пицца Маргарита",
-          price: "27 800 сум",
-          img: "/spizza.svg",
-          description: "Нежная пицца с базиликом и свежим соусом.",
-        },
-        {
-          name: "Веган Пицца",
-          price: "31 500 сум",
-          img: "/spizza.svg",
-          description: "Свежее vegetarian предложение с овощами.",
-        },
-      ],
-    },
-    {
-      title: "Ролы",
-      id: "rolls",
-      items: [
-        {
-          name: "Туни Ролл",
-          price: "31 000 сум",
-          img: "/load.svg",
-          description: "Ролл с тунцом и авокадо.",
-        },
-        {
-          name: "Лосось Ролл",
-          price: "29 500 сум",
-          img: "/load.svg",
-          description: "Нежный ролл с лососем и крем-сыром.",
-        },
-        {
-          name: "Креветка Ролл",
-          price: "27 800 сум",
-          img: "/load.svg",
-          description: "Ролл с креветками и соусом терияки.",
-        },
-        {
-          name: "Икра Ролл",
-          price: "31 500 сум",
-          img: "/load.svg",
-          description: "Эксклюзивный ролл с икрой и свежими овощами.",
-        },
-        {
-          name: "Огурец Ролл",
-          price: "27 800 сум",
-          img: "/load.svg",
-          description: "Лёгкий ролл с огурцом и рисом.",
-        },
-        {
-          name: "Спайси Ролл",
-          price: "31 500 сум",
-          img: "/load.svg",
-          description: "Ролл с острым соусом и лососем.",
-        },
-      ],
-    },
-    {
-      title: "Допы",
-      id: "extras",
-      items: [
-        {
-          name: "Фри",
-          price: "26 000 сум",
-          img: "/Фри.svg",
-          description: "Хрустящий картофель фри.",
-        },
-        {
-          name: "Суп",
-          price: "33 000 сум",
-          img: "/Суп.svg",
-          description: "Питательный суп дня с овощами.",
-        },
-        {
-          name: "Сырные палочки",
-          price: "27 800 сум",
-          img: "/load.svg",
-          description: "Новая закуска с растопленным сыром.",
-        },
-        {
-          name: "Луковые кольца",
-          price: "31 500 сум",
-          img: "/load.svg",
-          description: "Свежее дополнение с хрустящей корочкой.",
-        },
-        {
-          name: "Чесночный хлеб",
-          price: "27 800 сум",
-          img: "/load.svg",
-          description: "Хрустящий гарнир с чесночным соусом.",
-        },
-        {
-          name: "Овощной микс",
-          price: "31 500 сум",
-          img: "/load.svg",
-          description: "Новинка с запечёнными овощами.",
-        },
-      ],
-    },
-    {
-      title: "Напитки",
-      id: "drinks",
-      items: [
-        {
-          name: "Кола",
-          price: "10 000 сум",
-          img: "/coke.svg",
-          description: "Классическая газировка.",
-        },
-        {
-          name: "Лимонад",
-          price: "12 000 сум",
-          img: "/bottle.svg",
-          description: "Освежающий лимонад с цитрусовым вкусом.",
-        },
-        {
-          name: "Сок",
-          price: "8 000 сум",
-          img: "/bottle.svg",
-          description: "Натуральный фруктовый сок.",
-        },
-        {
-          name: "Вода",
-          price: "5 000 сум",
-          img: "/bottle.svg",
-          description: "Чистая питьевая вода без газа.",
-        },
-        {
-          name: "Кофе",
-          price: "15 000 сум",
-          img: "/bottle.svg",
-          description: "Ароматный кофе с молоком.",
-        },
-        {
-          name: "Чай",
-          price: "7 000 сум",
-          img: "/bottle.svg",
-          description: "Травяной или чёрный чай на выбор.",
-        },
-      ],
-    },
-    {
-      title: "Десерты",
-      id: "desserts",
-      items: [
-        {
-          name: "Мороженое",
-          price: "12 000 сум",
-          img: "/desert.svg",
-          description: "Сливочное мороженое с ванилью.",
-        },
-        {
-          name: "Пирожное",
-          price: "15 000 сум",
-          img: "/desert.svg",
-          description: "Нежное пирожное с кремом и ягодами.",
-        },
-        {
-          name: "Торт",
-          price: "25 000 сум",
-          img: "/desert.svg",
-          description: "Шоколадный торт на заказ с глазурью.",
-        },
-      ],
-    },
-  ];
 
+
+  
   // Состояния для «слот-машины»
   const prizes = ["Бесплатный бургер", "Скидка 50%", "Напиток в подарок", "Картофель фри в подарок"];
   const [isSpinning, setIsSpinning] = useState(false);
@@ -457,9 +178,31 @@ export default function Menu() {
       { id: 4, img: "gam.svg", count: `x${data[4] || 0}` },
   ]);
 })
+
+
 .catch((err) => {
   console.error("Ошибка получения донатов:", err);
 });
+
+
+
+useEffect(() => {
+  async function loadMenu() {
+    try {
+      const res = await fetch("https://api.mit-foodcompany.uz/api/menu");
+      const data = await res.json();
+      if (data.success) {
+        setCategories(data.categories);
+      } else {
+        console.error("Ошибка при получении меню:", data.message);
+      }
+    } catch (err) {
+      console.error("Ошибка запроса /api/menu:", err);
+    }
+  }
+
+  loadMenu();
+}, []);
 
 
       socket.on('updateDonations', (data) => {
