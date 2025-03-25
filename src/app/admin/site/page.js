@@ -5,7 +5,7 @@ import { useState,useEffect } from "react";
 export default function SitePage() {
   const [activeTab, setActiveTab] = useState("menu");
   const [isAddModalOpen, setAddModalOpen] = useState(false);
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuData, setMenuData] = useState([]); // 🛠 добавьте эту строку
 
   const [isAddCategoryModalOpen, setAddCategoryModalOpen] = useState(false); // <-- ДОБАВЛЯЕМ ЭТО  
 
@@ -28,16 +28,7 @@ export default function SitePage() {
   
 
 
-  const menuData = [
-    {
-      id: 1,
-      name: "Кат Бургер",
-      category: "Бургеры 'Кат'",
-      price: "30 000 UZS",
-      description: "Сочный бургер с котлетой.",
-      image: "https://via.placeholder.com/50",
-    },
-  ];
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,7 +42,7 @@ export default function SitePage() {
     };
   
     try {
-      const response = await fetch("https://mit-food-donation.onrender.com/api/menu", {
+      const response = await fetch("https://api.mit-foodcompany.uz/api/menu", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newDish),
@@ -123,22 +114,24 @@ export default function SitePage() {
                 </tr>
               </thead>
               <tbody>
-              {menuItems.map((dish) => (
-
-                  <tr key={dish.id} className="border-b">
-                    <td className="px-4 py-2">
-                      <img src={dish.image} alt={dish.name} className="w-12 h-12 object-cover rounded" />
-                    </td>
-                    <td className="px-4 py-2 text-gray-800">{dish.name}</td>
-                    <td className="px-4 py-2 text-gray-600">{dish.category}</td>
-                    <td className="px-4 py-2 text-gray-800">{dish.price}</td>
-                    <td className="px-4 py-2 text-gray-600">{dish.description}</td>
-                    <td className="px-4 py-2">
-                      <button className="bg-[#1333EA] text-white text-xs px-2 py-1 rounded hover:bg-blue-700 mr-2 transition-colors">Редактировать</button>
-                      <button className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors">Удалить</button>
-                    </td>
-                  </tr>
-                ))}
+              {menuData.flatMap(category => 
+  category.items.map((dish, index) => (
+    <tr key={`${category.id}-${index}`} className="border-b">
+      <td className="px-4 py-2">
+        <img src={dish.img} alt={dish.name} className="w-12 h-12 object-cover rounded" />
+      </td>
+      <td className="px-4 py-2 text-gray-800">{dish.name}</td>
+      <td className="px-4 py-2 text-gray-600">{category.title}</td>
+      <td className="px-4 py-2 text-gray-800">{dish.price}</td>
+      <td className="px-4 py-2 text-gray-600">{dish.description}</td>
+      <td className="px-4 py-2">
+        <button className="bg-[#1333EA] text-white text-xs px-2 py-1 rounded hover:bg-blue-700 mr-2 transition-colors">Редактировать</button>
+        <button className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors">Удалить</button>
+      </td>
+    </tr>
+  ))
+)}
+                
               </tbody>
             </table>
           </div>
