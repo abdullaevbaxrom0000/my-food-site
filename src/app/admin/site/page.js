@@ -19,6 +19,38 @@ export default function SitePage() {
     },
   ];
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const newDish = {
+      name: e.target.name.value,
+      category: e.target.category.value,
+      price: parseFloat(e.target.price.value),
+      description: e.target.description.value,
+      image_url: e.target.image_url.value,
+    };
+  
+    try {
+      const response = await fetch("https://mit-food-donation.onrender.com/api/menu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newDish),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Ошибка при добавлении блюда");
+      }
+  
+      alert("Блюдо успешно добавлено!");
+      setAddModalOpen(false);
+    } catch (error) {
+      console.error("Ошибка:", error);
+      alert("Произошла ошибка при добавлении блюда.");
+    }
+  };
+  
+
+  
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Управление сайтом</h1>
@@ -107,14 +139,16 @@ export default function SitePage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl w-full max-w-md">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Добавить блюдо</h2>
-            <form>
+            
+            <form onSubmit={handleSubmit}>
+
               <div className="mb-4">
-                <label className="block text-gray-700">Название</label>
-                <input type="text" className="w-full p-2 border rounded" />
+                <label className="block text-gray-700">Название Блюдо</label>
+                <input name="name" type="text" className="w-full p-2 border rounded" />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Категория</label>
-                <select className="w-full p-2 border rounded">
+                <select name="category" className="w-full p-2 border rounded">
                   <option>Бургеры "Кат"</option>
                   <option>Стики</option>
                   <option>Комбо</option>
@@ -127,12 +161,16 @@ export default function SitePage() {
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Цена (UZS)</label>
-                <input type="number" className="w-full p-2 border rounded" />
+                <input name="price" type="number" className="w-full p-2 border rounded" />
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Описание</label>
-                <textarea className="w-full p-2 border rounded" rows="3"></textarea>
+                <textarea name="description" className="w-full p-2 border rounded" rows="3"></textarea>
               </div>
+              <div className="mb-4">
+               <label className="block text-gray-700">Ссылка на изображение</label>
+               <input name="image_url" type="text" className="w-full p-2 border rounded" />
+               </div>
               <div className="flex justify-end space-x-2">
                 <button type="button" onClick={() => setAddModalOpen(false)} className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Отмена</button>
                 <button type="submit" className="bg-[#1333EA] text-white px-4 py-2 rounded hover:bg-blue-700">Добавить</button>
@@ -142,11 +180,15 @@ export default function SitePage() {
         </div>
           
       )}
+     
       
       {isAddCategoryModalOpen && (
   <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div className="bg-white p-6 rounded-xl w-full max-w-md">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Добавить категорию</h2>
+      
+      
+      
       <form>
         <div className="mb-4">
           <label className="block text-gray-700">Название категории</label>
