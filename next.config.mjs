@@ -12,6 +12,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    appDir: true, // <-- включаем App Router
+  },
 };
 
 export default nextConfig;
