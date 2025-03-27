@@ -119,6 +119,33 @@ export default function SitePage() {
   
 
 
+  const handleDelete = async (dishId) => {
+    const confirmDelete = window.confirm("Вы уверены, что хотите удалить это блюдо?");
+    if (!confirmDelete) return;
+  
+    try {
+      const response = await fetch(`/api/menu/${dishId}`, {
+        method: "DELETE"
+      });
+  
+      if (!response.ok) throw new Error("Ошибка при удалении");
+  
+      // Удалим блюдо из состояния без обновления страницы
+      const updated = menuData.map((cat) => ({
+        ...cat,
+        items: cat.items.filter((item) => item.id !== dishId)
+      }));
+  
+      setMenuData(updated);
+    } catch (error) {
+      console.error("Ошибка при удалении:", error);
+      alert("Не удалось удалить блюдо");
+    }
+  };
+  
+
+
+
 
   return (
     <div>
@@ -202,9 +229,13 @@ export default function SitePage() {
                            Редактировать
                             </button>
 
-                        <button className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors">
-                          Удалить
-                        </button>
+                            <button
+  onClick={() => handleDelete(dish.id)}
+  className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors"
+>
+  Удалить
+</button>
+
                       </td>
                     </tr>
                   ))
