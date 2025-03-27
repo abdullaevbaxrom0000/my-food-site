@@ -11,6 +11,12 @@ export default function SitePage() {
   const [editDishData, setEditDishData] = useState(null);
 
 
+  const [newCategoryId, setNewCategoryId] = useState('');
+  const [newCategoryTitle, setNewCategoryTitle] = useState('');
+
+
+
+
   const fetchMenu = async () => {
     try {
       const res = await fetch("https://api.mit-foodcompany.uz/api/menu");
@@ -143,6 +149,37 @@ export default function SitePage() {
     }
   };
   
+
+
+  const handleCategorySubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch("https://api.mit-foodcompany.uz/api/menu/categories", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: newCategoryId.trim(),
+          title: newCategoryTitle.trim()
+        })
+      });
+  
+      if (!response.ok) throw new Error("Ошибка при добавлении категории");
+  
+      alert("Категория добавлена!");
+      setAddCategoryModalOpen(false);
+      setNewCategoryId('');
+      setNewCategoryTitle('');
+      fetchMenu(); // обновим категории
+    } catch (error) {
+      console.error("Ошибка при добавлении категории:", error);
+      alert("Не удалось добавить категорию");
+    }
+  };
+  
+
 
 
 
@@ -398,27 +435,42 @@ export default function SitePage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl w-full max-w-md">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Добавить категорию</h2>
-            <form>
-              <div className="mb-4">
-                <label className="block text-gray-700">Название категории</label>
-                <input type="text" className="w-full p-2 border rounded" />
-              </div>
-              <div className="flex justify-end space-x-2">
-                <button
-                  type="button"
-                  onClick={() => setAddCategoryModalOpen(false)}
-                  className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                >
-                  Отмена
-                </button>
-                <button
-                  type="submit"
-                  className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
-                >
-                  Добавить
-                </button>
-              </div>
-            </form>
+            <form onSubmit={handleCategorySubmit}>
+  <div className="mb-4">
+    <label className="block text-gray-700">ID категории (например: burgers)</label>
+    <input
+      type="text"
+      value={newCategoryId}
+      onChange={(e) => setNewCategoryId(e.target.value)}
+      className="w-full p-2 border rounded"
+    />
+  </div>
+  <div className="mb-4">
+    <label className="block text-gray-700">Название категории (например: Бургеры \"Кат\")</label>
+    <input
+      type="text"
+      value={newCategoryTitle}
+      onChange={(e) => setNewCategoryTitle(e.target.value)}
+      className="w-full p-2 border rounded"
+    />
+  </div>
+  <div className="flex justify-end space-x-2">
+    <button
+      type="button"
+      onClick={() => setAddCategoryModalOpen(false)}
+      className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+    >
+      Отмена
+    </button>
+    <button
+      type="submit"
+      className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+    >
+      Добавить
+    </button>
+  </div>
+</form>
+
           </div>
         </div>
       )}
