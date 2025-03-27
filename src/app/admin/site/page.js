@@ -89,7 +89,8 @@ export default function SitePage() {
       const updatedDish = await response.json();
   
       // Обновим данные на экране
-      const updatedCategories = categories.map((cat) => {
+      const updatedCategories = menuData.map((cat) => {
+
         if (cat.id !== editDishData.category) return cat;
         return {
           ...cat,
@@ -101,7 +102,8 @@ export default function SitePage() {
         };
       });
   
-      setCategories(updatedCategories);
+      setMenuData(updatedCategories);
+
       setEditModalOpen(false);
       setEditDishData(null);
     } catch (error) {
@@ -329,9 +331,10 @@ export default function SitePage() {
         onChange={(e) => setEditDishData({ ...editDishData, category: e.target.value })}
         className="border rounded p-2 w-full mb-2"
       >
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.id}>{cat.title}</option>
-        ))}
+        {menuData.map((cat) => (
+  <option key={cat.id} value={cat.id}>{cat.title}</option>
+))}
+
       </select>
 
       <div className="flex justify-end mt-4 space-x-2">
