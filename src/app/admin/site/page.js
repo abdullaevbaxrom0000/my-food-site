@@ -70,6 +70,11 @@ export default function SitePage() {
 
   const handleEditSubmit = async () => {
     try {
+      
+      const rawPrice = editDishData.price.toString();
+      const cleanPrice = parseInt(rawPrice.replace(/[^\d]/g, ''), 10);
+
+      
       const response = await fetch(`/api/menu/${editDishData.id}`, {
         method: "PUT",
         headers: {
@@ -77,10 +82,8 @@ export default function SitePage() {
         },
         body: JSON.stringify({
           name: editDishData.name,
-          price: editDishData.price,
+          price: cleanPrice,
           ...(editDishData.img?.trim() && { image: editDishData.img.trim() }),
-
-
           description: editDishData.description,
           category: editDishData.category
         })
