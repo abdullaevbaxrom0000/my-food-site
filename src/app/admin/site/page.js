@@ -7,6 +7,10 @@ export default function SitePage() {
   const [menuData, setMenuData] = useState([]);
   const [isAddCategoryModalOpen, setAddCategoryModalOpen] = useState(false);
 
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [editDishData, setEditDishData] = useState(null);
+
+
   const fetchMenu = async () => {
     try {
       const res = await fetch("https://api.mit-foodcompany.uz/api/menu");
@@ -62,6 +66,52 @@ export default function SitePage() {
       alert("Произошла ошибка при добавлении блюда.");
     }
   };
+
+
+  const handleEditSubmit = async () => {
+    try {
+      const response = await fetch(`/api/menu/${editDishData.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: editDishData.name,
+          price: editDishData.price,
+          image_url: editDishData.img,
+          description: editDishData.description,
+          category: editDishData.category
+        })
+      });
+  
+      if (!response.ok) throw new Error("Ошибка при обновлении");
+  
+      const updatedDish = await response.json();
+  
+      // Обновим данные на экране
+      const updatedCategories = categories.map((cat) => {
+        if (cat.id !== editDishData.category) return cat;
+        return {
+          ...cat,
+          items: cat.items.map((item) =>
+            item.id === updatedDish.id
+              ? { ...updatedDish, price: `${Number(updatedDish.price).toLocaleString()} сум` }
+              : item
+          )
+        };
+      });
+  
+      setCategories(updatedCategories);
+      setEditModalOpen(false);
+      setEditDishData(null);
+    } catch (error) {
+      console.error("Ошибка при отправке PUT-запроса:", error);
+      alert("Не удалось сохранить изменения");
+    }
+  };
+  
+
+
 
   return (
     <div>
@@ -135,9 +185,16 @@ export default function SitePage() {
                       <td className="px-4 py-2 text-gray-800">{dish.price}</td>
                       <td className="px-4 py-2 text-gray-600">{dish.description}</td>
                       <td className="px-4 py-2">
-                        <button className="bg-[#1333EA] text-white text-xs px-2 py-1 rounded hover:bg-blue-700 mr-2 transition-colors">
-                          Редактировать
-                        </button>
+                      <button
+                       onClick={() => {
+                         setEditDishData({ ...dish, category: category.id });
+                         setEditModalOpen(true);
+                             }}
+                            className="bg-[#1333EA] text-white text-xs px-2 py-1 rounded hover:bg-blue-700 mr-2 transition-colors"
+                           >
+                           Редактировать
+                            </button>
+
                         <button className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors">
                           Удалить
                         </button>
@@ -229,6 +286,74 @@ export default function SitePage() {
           </div>
         </div>
       )}
+
+
+{isEditModalOpen && editDishData && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white rounded-lg p-6 w-full max-w-md relative">
+      <h2 className="text-xl font-bold mb-4">Редактировать блюдо</h2>
+
+      <input
+        type="text"
+        placeholder="Название"
+        value={editDishData.name}
+        onChange={(e) => setEditDishData({ ...editDishData, name: e.target.value })}
+        className="border rounded p-2 w-full mb-2"
+      />
+
+      <input
+        type="text"
+        placeholder="Цена"
+        value={editDishData.price}
+        onChange={(e) => setEditDishData({ ...editDishData, price: e.target.value })}
+        className="border rounded p-2 w-full mb-2"
+      />
+
+      <input
+        type="text"
+        placeholder="Изображение"
+        value={editDishData.img}
+        onChange={(e) => setEditDishData({ ...editDishData, img: e.target.value })}
+        className="border rounded p-2 w-full mb-2"
+      />
+
+      <textarea
+        placeholder="Описание"
+        value={editDishData.description}
+        onChange={(e) => setEditDishData({ ...editDishData, description: e.target.value })}
+        className="border rounded p-2 w-full mb-2"
+      />
+
+      <select
+        value={editDishData.category}
+        onChange={(e) => setEditDishData({ ...editDishData, category: e.target.value })}
+        className="border rounded p-2 w-full mb-2"
+      >
+        {categories.map((cat) => (
+          <option key={cat.id} value={cat.id}>{cat.title}</option>
+        ))}
+      </select>
+
+      <div className="flex justify-end mt-4 space-x-2">
+        <button
+          onClick={() => setEditModalOpen(false)}
+          className="bg-gray-300 text-gray-800 px-4 py-2 rounded"
+        >
+          Отмена
+        </button>
+        <button
+          onClick={handleEditSubmit}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
+
 
       {isAddCategoryModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
