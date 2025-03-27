@@ -78,7 +78,9 @@ export default function SitePage() {
         body: JSON.stringify({
           name: editDishData.name,
           price: editDishData.price,
-          image_url: editDishData.img,
+          ...(editDishData.img?.trim() && { image: editDishData.img.trim() }),
+
+
           description: editDishData.description,
           category: editDishData.category
         })
