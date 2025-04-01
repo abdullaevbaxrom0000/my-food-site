@@ -21,7 +21,7 @@ export default function SitePage() {
 useEffect(() => {
   const fetchCategories = async () => {
     try {
-      const res = await fetch("https://api.mit-foodcompany.uz/api/categories");
+      const res = await fetch("https://api.mit-foodcompany.uz/api/menu/categories");
       const data = await res.json();
       setCategories(data.categories); // предполагаем, что API вернёт поле categories
     } catch (err) {
