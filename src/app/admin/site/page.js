@@ -16,6 +16,24 @@ export default function SitePage() {
 
 
 
+  const [categories, setCategories] = useState([]);
+
+useEffect(() => {
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("https://api.mit-foodcompany.uz/api/categories");
+      const data = await res.json();
+      setCategories(data.categories); // предполагаем, что API вернёт поле categories
+    } catch (err) {
+      console.error("Ошибка при загрузке категорий:", err);
+    }
+  };
+
+  fetchCategories();
+}, []);
+
+
+
 
   const fetchMenu = async () => {
     try {
@@ -320,15 +338,13 @@ export default function SitePage() {
               <div className="mb-4">
                 <label className="block text-gray-700">Категория</label>
                 <select name="category" className="w-full p-2 border rounded">
-                  <option>Бургеры "Кат"</option>
-                  <option>Стики</option>
-                  <option>Комбо</option>
-                  <option>Пиццы</option>
-                  <option>Ролы</option>
-                  <option>Допы</option>
-                  <option>Напитки</option>
-                  <option>Десерты</option>
-                </select>
+  {categories.map((cat) => (
+    <option key={cat.id} value={cat.id}>
+      {cat.title}
+    </option>
+  ))}
+</select>
+
               </div>
               <div className="mb-4">
                 <label className="block text-gray-700">Цена (UZS)</label>
@@ -404,9 +420,10 @@ export default function SitePage() {
         onChange={(e) => setEditDishData({ ...editDishData, category: e.target.value })}
         className="border rounded p-2 w-full mb-2"
       >
-        {menuData.map((cat) => (
+        {categories.map((cat) => (
   <option key={cat.id} value={cat.id}>{cat.title}</option>
 ))}
+
 
       </select>
 
