@@ -65,7 +65,7 @@ useEffect(() => {
 
     const newDish = {
       name: e.target.name.value,
-      category: categoryMap[e.target.category.value],
+      category: e.target.category.value, // ✅
       price: parseFloat(e.target.price.value),
       description: e.target.description.value,
       image_url: e.target.image_url.value,
