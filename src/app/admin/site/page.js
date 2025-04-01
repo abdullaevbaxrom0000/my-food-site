@@ -421,8 +421,8 @@ useEffect(() => {
         className="border rounded p-2 w-full mb-2"
       >
         {categories.map((cat) => (
-  <option key={cat.id} value={cat.id}>{cat.title}</option>
-))}
+         <option key={cat.id} value={cat.id}>{cat.title}</option>
+        ))}
 
 
       </select>
