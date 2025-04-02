@@ -195,6 +195,7 @@ useEffect(() => {
       setNewCategoryId('');
       setNewCategoryTitle('');
       fetchMenu(); // обновим категории
+      fetchCategories();
     } catch (error) {
       console.error("Ошибка при добавлении категории:", error);
       alert("Не удалось добавить категорию");
