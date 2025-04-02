@@ -225,6 +225,45 @@ useEffect(() => {
             {tab.label}
           </button>
         ))}
+
+        
+{/* Список всех категорий */}
+{activeTab === "menu" && categories.length > 0 && (
+  <div className="mt-12">
+    <h2 className="text-lg font-semibold mb-4">Категории</h2>
+    <div className="space-y-2">
+      {categories.map((cat) => (
+        <div key={cat.id} className="border p-3 rounded flex justify-between items-center">
+          <div>
+            <div className="font-bold text-gray-800">{cat.title}</div>
+            <div className="text-sm text-gray-500">ID: {cat.id}</div>
+          </div>
+          <div className="flex space-x-2">
+            <button
+              onClick={() => {
+                setEditingCategory(cat);
+                setNewCategoryId(cat.id);
+                setNewCategoryTitle(cat.title);
+                setAddCategoryModalOpen(true);
+              }}
+              className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Редактировать
+            </button>
+            <button
+              onClick={() => handleDeleteCategory(cat.id)}
+              className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
+            >
+              Удалить
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+
       </div>
 
       {activeTab === "menu" && (
@@ -499,38 +538,3 @@ useEffect(() => {
 
 
 
-{/* Список всех категорий */}
-{activeTab === "menu" && categories.length > 0 && (
-  <div className="mt-12">
-    <h2 className="text-lg font-semibold mb-4">Категории</h2>
-    <div className="space-y-2">
-      {categories.map((cat) => (
-        <div key={cat.id} className="border p-3 rounded flex justify-between items-center">
-          <div>
-            <div className="font-bold text-gray-800">{cat.title}</div>
-            <div className="text-sm text-gray-500">ID: {cat.id}</div>
-          </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => {
-                setEditingCategory(cat);
-                setNewCategoryId(cat.id);
-                setNewCategoryTitle(cat.title);
-                setAddCategoryModalOpen(true);
-              }}
-              className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-              Редактировать
-            </button>
-            <button
-              onClick={() => handleDeleteCategory(cat.id)}
-              className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Удалить
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-)}
