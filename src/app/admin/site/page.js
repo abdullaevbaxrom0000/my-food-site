@@ -2,6 +2,10 @@
 import { useState, useEffect } from "react";
 
 export default function SitePage() {
+
+  const [activeCategory, setActiveCategory] = useState(null);
+
+
   const [activeTab, setActiveTab] = useState("menu");
   const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [menuData, setMenuData] = useState([]);
@@ -250,6 +254,24 @@ useEffect(() => {
           </div>
 
           <div className="overflow-x-auto">
+
+          <div className="flex flex-wrap gap-2 mb-4">
+  {menuData.map((category) => (
+    <button
+      key={category.id}
+      onClick={() => setActiveCategory(category.id)}
+      className={`px-3 py-1 rounded-xl ${
+        activeCategory === category.id
+          ? "bg-blue-600 text-white"
+          : "bg-gray-200 text-gray-700"
+      }`}
+    >
+      {category.title}
+    </button>
+  ))}
+</div>
+
+
             <table className="min-w-full table-auto">
               <thead className="bg-gray-100">
                 <tr>
@@ -262,42 +284,43 @@ useEffect(() => {
                 </tr>
               </thead>
               <tbody>
-                {menuData.flatMap((category) =>
-                  category.items.map((dish, index) => (
-                    <tr key={`${category.id}-${index}`} className="border-b">
-                      <td className="px-4 py-2">
-                        <img
-                          src={dish.img}
-                          alt={dish.name}
-                          className="w-12 h-12 object-cover rounded"
-                        />
-                      </td>
-                      <td className="px-4 py-2 text-gray-800">{dish.name}</td>
-                      <td className="px-4 py-2 text-gray-600">{category.title}</td>
-                      <td className="px-4 py-2 text-gray-800">{dish.price}</td>
-                      <td className="px-4 py-2 text-gray-600">{dish.description}</td>
-                      <td className="px-4 py-2">
-                      <button
-                       onClick={() => {
-                         setEditDishData({ ...dish, category: category.id });
-                         setEditModalOpen(true);
-                             }}
-                            className="bg-[#1333EA] text-white text-xs px-2 py-1 rounded hover:bg-blue-700 mr-2 transition-colors"
-                           >
-                           Редактировать
-                            </button>
+              {menuData
+  .filter((category) => category.id === activeCategory)
+  .flatMap((category) =>
+    category.items.map((dish, index) => (
+      <tr key={`${category.id}-${index}`} className="border-b">
+        <td className="px-4 py-2">
+          <img
+            src={dish.img}
+            alt={dish.name}
+            className="w-12 h-12 object-cover rounded"
+          />
+        </td>
+        <td className="px-4 py-2 text-gray-800">{dish.name}</td>
+        <td className="px-4 py-2 text-gray-600">{category.title}</td>
+        <td className="px-4 py-2 text-gray-800">{dish.price}</td>
+        <td className="px-4 py-2 text-gray-600">{dish.description}</td>
+        <td className="px-4 py-2">
+          <button
+            onClick={() => {
+              setEditDishData({ ...dish, category: category.id });
+              setEditModalOpen(true);
+            }}
+            className="bg-[#1333EA] text-white text-xs px-2 py-1 rounded hover:bg-blue-700 mr-2 transition-colors"
+          >
+            Редактировать
+          </button>
+          <button
+            onClick={() => handleDelete(dish.id)}
+            className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors"
+          >
+            Удалить
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
 
-                            <button
-  onClick={() => handleDelete(dish.id)}
-  className="bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 transition-colors"
->
-  Удалить
-</button>
-
-                      </td>
-                    </tr>
-                  ))
-                )}
               </tbody>
             </table>
           </div>
