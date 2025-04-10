@@ -22,6 +22,10 @@ export default function SitePage() {
 
   const [categories, setCategories] = useState([]);
 
+  const [editingCategory, setEditingCategory] = useState(null);
+
+
+
 useEffect(() => {
   const fetchCategories = async () => {
     try {
@@ -168,31 +172,48 @@ useEffect(() => {
   const handleCategorySubmit = async (e) => {
     e.preventDefault();
   
+    const id = newCategoryId.trim();
+    const title = newCategoryTitle.trim();
+  
+    if (!id || !title) {
+      alert("Введите ID и Название категории");
+      return;
+    }
+  
     try {
-      const response = await fetch("https://api.mit-foodcompany.uz/api/menu/categories", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          id: newCategoryId.trim(),
-          title: newCategoryTitle.trim()
-        })
-      });
+      let response;
+      if (editingCategory) {
+        // 🔄 Редактируем категорию
+        response = await fetch(`https://api.mit-foodcompany.uz/api/menu/categories/${id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title }),
+        });
+      } else {
+        // 🆕 Создаём новую категорию
+        response = await fetch("https://api.mit-foodcompany.uz/api/menu/categories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id, title }),
+        });
+      }
   
-      if (!response.ok) throw new Error("Ошибка при добавлении категории");
+      if (!response.ok) throw new Error("Ошибка запроса");
   
-      alert("Категория добавлена!");
+      alert(editingCategory ? "Категория обновлена!" : "Категория добавлена!");
+  
       setAddCategoryModalOpen(false);
+      setEditingCategory(null); // 🧼 сброс
       setNewCategoryId('');
       setNewCategoryTitle('');
-      fetchMenu(); // обновим категории
-      fetchCategories();
+      fetchMenu(); // обновим
+      fetchCategories(); // обновим
     } catch (error) {
-      console.error("Ошибка при добавлении категории:", error);
-      alert("Не удалось добавить категорию");
+      console.error("Ошибка:", error);
+      alert("Произошла ошибка при сохранении категории.");
     }
   };
+  
   
 
 
@@ -274,6 +295,7 @@ useEffect(() => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
+                setEditingCategory(category);
                 setNewCategoryId(category.id);
                 setNewCategoryTitle(category.title);
                 setAddCategoryModalOpen(true);
