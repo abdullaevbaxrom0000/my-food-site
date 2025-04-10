@@ -58,7 +58,7 @@ useEffect(() => {
 
     
 
-
+    
     const newDish = {
       name: e.target.name.value,
       category: e.target.category.value, // ✅
@@ -248,42 +248,52 @@ useEffect(() => {
 
           <div className="overflow-x-auto">
 
+          
+          
+          
           <div className="flex flex-wrap gap-2 mb-4">
-  
-
-          {menuData.map((category) => (
-  <div
-    key={category.id}
-    className={`flex items-center gap-2 px-3 py-1 rounded-xl ${
-      activeCategory === category.id ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
-    }`}
-  >
-    <button onClick={() => setActiveCategory(category.id)}>
-      {category.title}
-    </button>
-    <button
-      className="text-sm text-yellow-400 hover:text-yellow-500"
-      title="Редактировать"
-      onClick={() => {
-        setEditingCategory(category);
-        setNewCategoryId(category.id);
-        setNewCategoryTitle(category.title);
-        setAddCategoryModalOpen(true);
-      }}
+  {menuData.map((category) => (
+    <div
+      key={category.id}
+      className={`flex items-center space-x-2 px-3 py-1 rounded-xl ${
+        activeCategory === category.id
+          ? "bg-blue-600 text-white"
+          : "bg-gray-200 text-gray-800"
+      }`}
     >
-      ✏️
-    </button>
-    <button
-      className="text-sm text-red-500 hover:text-red-600"
-      title="Удалить"
-      onClick={() => handleDeleteCategory(category.id)}
-    >
-      🗑️
-    </button>
-  </div>
-))}
+      <button onClick={() => setActiveCategory(category.id)} className="focus:outline-none">
+        {category.title}
+      </button>
 
+      {/* Редактировать */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setNewCategoryId(category.id);
+          setNewCategoryTitle(category.title);
+          setAddCategoryModalOpen(true);
+        }}
+        title="Редактировать"
+        className="text-yellow-400 hover:text-yellow-500 text-xs"
+      >
+        ✏️
+      </button>
+
+      {/* Удалить */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDeleteCategory(category.id);
+        }}
+        title="Удалить"
+        className="text-red-400 hover:text-red-500 text-xs"
+      >
+        🗑️
+      </button>
+    </div>
+  ))}
 </div>
+
 
 
             <table className="min-w-full table-auto">
