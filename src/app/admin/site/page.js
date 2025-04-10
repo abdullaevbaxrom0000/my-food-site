@@ -56,17 +56,9 @@ useEffect(() => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const categoryMap = {
-      "Бургеры \"Кат\"": "burgers",
-      "Стики": "sticks",
-      "Комбо": "combos",
-      "Пиццы": "pizzas",
-      "Ролы": "rolls",
-      "Допы": "extras",
-      "Напитки": "drinks",
-      "Десерты": "desserts",
-    };
+    
 
+    
     const newDish = {
       name: e.target.name.value,
       category: e.target.category.value, // ✅
